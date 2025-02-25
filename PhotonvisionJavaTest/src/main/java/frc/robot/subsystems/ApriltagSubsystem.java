@@ -4,12 +4,79 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+
+import org.opencv.photo.Photo;
+import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonPipelineMetadata;
+import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.OperatorConstants;
 
 public class ApriltagSubsystem extends SubsystemBase {
+
+  private PhotonCamera camera;
+  private boolean flagOn;
+  private Flag flag;
+  private ArrayList<PhotonTrackedTarget> targets;
+
   /** Creates a new ApriltagSubsystem. */
-  public ApriltagSubsystem() {}
+  public ApriltagSubsystem() {
+    super(); 
+
+    this.camera = new PhotonCamera(OperatorConstants.CAMERA_NAME);
+    this.flagOn = false;
+    this.flag = None;
+    this.targets = new ArrayList<>();
+  }
+
+  public PhotonTrackedTarget getHighestID(ArrayList<PhotonTrackedTarget> targets) {
+    PhotonTrackedTarget bestTarget = targets.get(0);
+
+    for (PhotonTrackedTarget target : targets) {
+      if (target.getFiducialId() > bestTarget.getFiducialId()) {
+        bestTarget = target;
+      }
+    }
+
+    return bestTarget;
+  }
+
+  ArrayList<PhotonTrackedTarget> refresh() {
+    PhotonPipelineResult result = this.camera.getLatestResult();
+
+    if (result.hasTargets()) {
+      this.targets = result.getTargets();
+      return this.targets;
+    } else {
+      return None;
+    }
+  }
+
+  double getTargetYaw(int id) {
+    ArrayList<PhotonTrackedTarget> newTargets = this.targets;
+    if (newTargets != None) {
+      for (PhotonTrackedTarget target : newTargets) {
+        if (target.getFiducialId() == id) {
+          return target.getYaw();
+        }
+      }
+    }
+
+    return 0;
+  }
+
+  void setFlag(Flag flag) {
+    this.flagOn = true;
+    this.flag = flag;
+  }
+
+  boolean isFlagged() {
+    return this.flagOn;
+  }
 
   /**
    * Example command factory method.
