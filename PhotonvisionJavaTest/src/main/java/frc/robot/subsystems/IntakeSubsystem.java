@@ -4,37 +4,29 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.motorcontrol.PWMMotorController;
-import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.MotorIDConstants;
-import frc.robot.Constants.StateConstants;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  // private TalonSRX motorLeft;
-  // private TalonSRX motorRight;
+  private TalonSRX motorLeft;
+  private TalonSRX motorRight;
 
-  // private PWMTalonSRX motors;
+  public IntakeSubsystem() {
+    super();
 
-  // public IntakeSubsystem() {
-  //   super();
+    this.motorLeft = new TalonSRX(MotorIDConstants.INTAKE_LEFT_ID);
 
-  //   this.motorLeft = new TalonSRX(MotorIDConstants.INTAKE_LEFT_ID);
+    this.motorRight = new TalonSRX(MotorIDConstants.INTAKE_RIGHT_ID);
+    this.motorRight.setInverted(true);
+  }
 
-  //   this.motorRight = new TalonSRX(MotorIDConstants.INTAKE_RIGHT_ID);
-  //   this.motorRight.setInverted(true);
-
-  //   this.motors = new PWMTalonSRX(this.motorLeft, this.motorRight);
-  // }
-
-  // public void setSpeed(double speed) {
-  //   this.motors.set(speed);
-  // }
+  public void setSpeed(double speed) {
+    this.motorLeft.set(TalonSRXControlMode.PercentOutput, speed);
+    this.motorRight.set(TalonSRXControlMode.PercentOutput, speed);
+  }
 }
