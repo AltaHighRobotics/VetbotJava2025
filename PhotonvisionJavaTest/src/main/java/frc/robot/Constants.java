@@ -27,6 +27,7 @@ public final class Constants {
     public static final String DEFAULT_OBJECTIVE = "I";
     public static final double DEFAULT_BUCKET = 0;
     public static final double DEFAULT_INTAKE = 0;
+    public static final double DEFAULT_END_STOP = -1;
     public static final double DEFAULT_END_STOP_OVERRIDE = 0;
   }
 
