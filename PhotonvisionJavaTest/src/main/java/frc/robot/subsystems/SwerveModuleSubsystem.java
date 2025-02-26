@@ -29,6 +29,8 @@ public class SwerveModuleSubsystem extends SubsystemBase {
 
   /** Creates a new SwerveModuleSubsystem. */
   public SwerveModuleSubsystem(int driveID, int steerID, double P, double I, double D) {
+    super();
+
     this.drive = new TalonFX(driveID, "talonfx");
     this.drive.setNeutralMode(NeutralModeValue.Brake);
 

@@ -38,6 +38,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   private SwerveDriveKinematics kinematics;
   
   public SwerveDriveSubsystem() {
+    super();
+
     final double P = PIDConstants.P;
     final double I = PIDConstants.I;
     final double D = PIDConstants.D;
