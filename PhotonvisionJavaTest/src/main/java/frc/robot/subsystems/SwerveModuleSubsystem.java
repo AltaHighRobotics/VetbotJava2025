@@ -26,11 +26,11 @@ import com.revrobotics.spark.SparkMax;
 
 public class SwerveModuleSubsystem extends SubsystemBase {
   
-  TalonFX drive;
-  SparkMax turn;
-  RelativeEncoder turnEncoder;
-  ProfiledPIDController turningPIDController;
-  double maxOut;
+  private TalonFX drive;
+  private SparkMax turn;
+  private RelativeEncoder turnEncoder;
+  private ProfiledPIDController turningPIDController;
+  private double maxOut;
 
   /** Creates a new SwerveModuleSubsystem. */
   public SwerveModuleSubsystem(int driveID, int steerID, double P, double I, double D) {
