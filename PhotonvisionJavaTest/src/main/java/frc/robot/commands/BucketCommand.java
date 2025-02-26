@@ -3,7 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.SpeedConstants;
 import frc.robot.subsystems.BucketSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class BucketCommand extends Command {
