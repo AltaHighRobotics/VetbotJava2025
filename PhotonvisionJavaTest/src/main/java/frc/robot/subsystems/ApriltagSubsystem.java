@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.opencv.photo.Photo;
 import org.photonvision.PhotonCamera;
@@ -19,21 +20,17 @@ import frc.robot.Constants.OperatorConstants;
 public class ApriltagSubsystem extends SubsystemBase {
 
   private PhotonCamera camera;
-  private boolean flagOn;
-  private Flag flag;
-  private ArrayList<PhotonTrackedTarget> targets;
+  private List<PhotonTrackedTarget> targets;
 
   /** Creates a new ApriltagSubsystem. */
   public ApriltagSubsystem() {
     super(); 
 
     this.camera = new PhotonCamera(OperatorConstants.CAMERA_NAME);
-    this.flagOn = false;
-    this.flag = None;
-    this.targets = new ArrayList<>();
+    this.targets = new ArrayList<PhotonTrackedTarget>();
   }
 
-  public PhotonTrackedTarget getHighestID(ArrayList<PhotonTrackedTarget> targets) {
+  public PhotonTrackedTarget getHighestID(List<PhotonTrackedTarget> targets) {
     PhotonTrackedTarget bestTarget = targets.get(0);
 
     for (PhotonTrackedTarget target : targets) {
@@ -45,20 +42,20 @@ public class ApriltagSubsystem extends SubsystemBase {
     return bestTarget;
   }
 
-  ArrayList<PhotonTrackedTarget> refresh() {
+  List<PhotonTrackedTarget> refresh() {
     PhotonPipelineResult result = this.camera.getLatestResult();
 
     if (result.hasTargets()) {
       this.targets = result.getTargets();
       return this.targets;
     } else {
-      return None;
+      return null;
     }
   }
 
   double getTargetYaw(int id) {
-    ArrayList<PhotonTrackedTarget> newTargets = this.targets;
-    if (newTargets != None) {
+    List<PhotonTrackedTarget> newTargets = this.targets;
+    if (newTargets != null) {
       for (PhotonTrackedTarget target : newTargets) {
         if (target.getFiducialId() == id) {
           return target.getYaw();
@@ -67,15 +64,6 @@ public class ApriltagSubsystem extends SubsystemBase {
     }
 
     return 0;
-  }
-
-  void setFlag(Flag flag) {
-    this.flagOn = true;
-    this.flag = flag;
-  }
-
-  boolean isFlagged() {
-    return this.flagOn;
   }
 
   /**
