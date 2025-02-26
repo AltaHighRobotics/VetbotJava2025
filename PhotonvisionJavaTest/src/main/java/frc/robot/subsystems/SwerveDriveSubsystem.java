@@ -82,4 +82,16 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     this.backLeftModule.setMaxOut(maxOutput);
     this.backRightModule.setMaxOut(maxOutput);
   }
+
+  public void FOReset() {
+    this.gyro.zeroYaw();
+  }
+
+  public void lockTurn() {
+    this.turnLock = true;
+  }
+
+  public void unlockTurn() {
+    this.turnLock = false;
+  }
 }
