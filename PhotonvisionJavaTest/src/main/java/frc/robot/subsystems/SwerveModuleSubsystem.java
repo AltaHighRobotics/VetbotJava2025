@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.networktables.NetworkTableInstance.NetworkMode;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -12,6 +13,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveDriveConstants;
 
 import com.revrobotics.spark.SparkLowLevel;
+
+import static edu.wpi.first.units.Units.Rotation;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.RelativeEncoder;
@@ -45,6 +49,12 @@ public class SwerveModuleSubsystem extends SubsystemBase {
     this.turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
     this.maxOut = 0;
+  }
+
+  Rotation2d getEncoder() {
+    final double tau = Math.PI * 2;
+    final double gearRatio = SwerveDriveConstants.SWERVE_TURN_GEAR_RATIO;
+    return new Rotation2d(this.turnEncoder.getPosition() * tau * gearRatio);
   }
 
   /**
