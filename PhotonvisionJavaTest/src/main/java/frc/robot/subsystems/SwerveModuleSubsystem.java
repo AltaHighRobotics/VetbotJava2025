@@ -53,17 +53,17 @@ public class SwerveModuleSubsystem extends SubsystemBase {
     this.maxOut = 0;
   }
 
-  Rotation2d getEncoder() {
+  public Rotation2d getEncoder() {
     final double tau = Math.PI * 2;
     final double gearRatio = SwerveDriveConstants.SWERVE_TURN_GEAR_RATIO;
     return new Rotation2d(this.turnEncoder.getPosition() * tau * gearRatio);
   }
 
-  void setMaxOut(double value) {
+  public void setMaxOut(double value) {
     this.maxOut = value;
   }
 
-  void setDesiredState(final SwerveModuleState desiredState) {
+  public void setDesiredState(final SwerveModuleState desiredState) {
     final double tau = Math.PI * 2;
     final double gearRatio = SwerveDriveConstants.SWERVE_TURN_GEAR_RATIO;
 
