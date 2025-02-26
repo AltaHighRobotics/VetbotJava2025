@@ -154,7 +154,7 @@ public class StateSubsystem extends SubsystemBase {
     }
   }
 
-  void handleButton(String button, boolean pressed) {
+  public void handleButton(String button, boolean pressed) {
     // If pressed
     if (pressed) {
       switch (button) {
