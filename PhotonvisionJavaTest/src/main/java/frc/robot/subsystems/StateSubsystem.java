@@ -4,11 +4,29 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.StateConstants;
 
 public class StateSubsystem extends SubsystemBase {
 
-  public StateSubsystem() {
+  SwerveDriveSubsystem drive;
+
+  String objective;
+  double bucket;
+  double intake;
+  double endstop;
+  double intaking;
+  boolean endstopOverride;
+
+  ShuffleboardTab tab;
+  GenericEntry objectiveWidget;
+  SendableChooser<Boolean> endstopOverrideWidget;
+    
+  public StateSubsystem(SwerveDriveSubsystem drive) {
     /**
      * A virtural machine for controlling command-based FRC robots
      * Created by Shayden Jennings in 2024, team 4598. Version 1.0
@@ -82,5 +100,154 @@ public class StateSubsystem extends SubsystemBase {
      */
 
     super();
+
+    this.drive = drive;
+
+    this.objective = StateConstants.DEFAULT_OBJECTIVE;
+    this.bucket = StateConstants.DEFAULT_BUCKET;
+    this.intake = StateConstants.DEFAULT_INTAKE;
+    this.endstop = StateConstants.DEFAULT_END_STOP;
+    this.intaking = this.intake;
+    this.endstopOverride = StateConstants.DEFAULT_END_STOP_OVERRIDE;
+    
+    // shuffleboard widgets
+    this.tab = Shuffleboard.getTab("State");
+    this.objectiveWidget = this.tab.add("Objective", "Default").getEntry();
+    this.endstopOverrideWidget = new SendableChooser<Boolean>();
+    this.endstopOverrideWidget.setDefaultOption("OFF", false);
+    this.endstopOverrideWidget.addOption("ON", true);
+    this.tab.add("Endstop Override", this.endstopOverrideWidget);
+  }
+
+  public boolean isEndstopOverride() {
+    this.endstopOverride = this.endstopOverrideWidget.getSelected();
+    return this.endstopOverride;
+  }
+
+  public boolean isExtending() {
+    return this.bucket == 1;
+  }
+
+  public boolean isRetracking() {
+    return this.intaking == -1;
+  }
+
+  public boolean isIntaking() {
+    return this.intaking == 1;
+  }
+
+  public boolean isOutaking() {
+    return this.bucket == -1;
+  }
+
+  public void updateWidgets() {
+    switch (this.objective) {
+    case "I":
+        this.objectiveWidget.setString("Intake");
+        break;
+    case "P":
+        this.objectiveWidget.setString("Plow");
+        break;
+    case "B":
+        this.objectiveWidget.setString("Bucket");
+        break;
+    }
+  }
+
+  void handleButton(String button, boolean pressed) {
+    // If pressed
+    if (pressed) {
+      switch (button) {
+        case "Forward":
+          if (this.objective == "B") {
+            if (this.endstop != 1 || this.endstopOverride) {
+              this.bucket = 1;
+            } else {
+              this.bucket = 0;
+            }
+          } else {
+            this.intake = 1;
+            this.bucket = -1;
+
+            if (this.endstop == -1 || this.endstopOverride) {
+              this.bucket = 0;
+              this.intaking = 1;
+            }
+          }
+
+          break;
+
+        case "Bucket":
+          this.objective = "B";
+          this.drive.unlockTurn();
+          break;
+
+        case "Plow":
+          this.objective = "P";
+          this.drive.lockTurn();
+          break;
+
+        case "Intake":
+          this.objective = "I";
+          this.drive.unlockTurn();
+          break;
+
+        case "Back":
+          if (this.objective == "B") {
+            if (this.endstop != 1 || this.endstopOverride) {
+              this.bucket = -1;
+            } else {
+              this.bucket = 0;
+            }
+          } else {
+            this.intake = -1;
+            this.intaking = -1;
+          }
+
+          break;
+
+        case "Out":
+          this.bucket = 0;
+          this.endstop = 1;
+          break;
+
+        case "In":
+          this.bucket = 0;
+          this.endstop = -1;
+
+          if (this.intake == 1) {
+            this.intaking = 1;
+          }
+
+          break;
+      }
+    } 
+    
+    // If not pressed
+    else {
+      switch (button) {
+        case "Forward":
+          this.bucket = 0;
+          this.intake = 0;
+          this.intaking = 0;
+          break;
+
+        case "Back":
+          this.bucket = 0;
+          this.intake = 0;
+          this.intaking = 0;
+          break;
+
+        case "Out":
+          this.endstop = 0;
+          break;
+
+        case "In":
+          this.endstop = 0;
+          break;
+      }
+    }
+
+    this.updateWidgets();
   }
 }
