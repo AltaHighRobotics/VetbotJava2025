@@ -5,7 +5,8 @@
 package frc.robot;
 
 import frc.robot.Constants.InputConstants;
-
+import frc.robot.commands.FCDrive;
+import frc.robot.subsystems.SwerveDriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -22,13 +23,16 @@ public class RobotContainer {
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandJoystick driverController =
-      new CommandJoystick(InputConstants.DRIVER_CONTROLLER_PORT);
+  private final CommandJoystick driverController;
+  private SwerveDriveSubsystem drive;
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the trigger bindings
+    this.driverController = new CommandJoystick(InputConstants.DRIVER_CONTROLLER_PORT);
+    this.drive = new SwerveDriveSubsystem();
+
     configureBindings();
+
+    this.drive.setDefaultCommand(new FCDrive(drive, driverController));
   }
 
   /**
