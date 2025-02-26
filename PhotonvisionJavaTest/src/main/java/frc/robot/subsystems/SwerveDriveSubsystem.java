@@ -7,10 +7,13 @@ package frc.robot.subsystems;
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// import com.kauailabs.navx.frc;
-
+import frc.robot.Constants.InputConstants;
 import frc.robot.Constants.MotorIDConstants;
 import frc.robot.Constants.PIDConstants;
 import frc.robot.Constants.SpeedConstants;
@@ -32,7 +35,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   private boolean turnLock;
   private AHRS gyro;
 
-  private double maxOut;
+  private SwerveDriveKinematics kinematics;
   
   public SwerveDriveSubsystem() {
     final double P = PIDConstants.P;
@@ -70,13 +73,77 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     );
 
     this.turnLock = false;
+
     this.gyro = new AHRS(NavXComType.kMXP_SPI);
+
+    this.kinematics = new SwerveDriveKinematics(
+      this.frontLeftLocation,
+      this.frontRightLocation,
+      this.backLeftLocation,
+      this.backRightLocation
+    );
+
+    this.gyro.reset();
 
     this.setMaxOutput(SpeedConstants.SWERVE_MAX_OUTPUT);
   }
 
+  public void drive(double ySpeed, double xSpeed, double rot, double speed, boolean fieldRelative) {
+    /**
+     * Method to drive the robot using joystick info.
+     * param xSpeed: Speed of the robot in the x direction (forward).
+     * param ySpeed: Speed of the robot in the y direction (sideways).
+     * param rot: Angular rate of the robot.
+     * param speed: Speed scaler
+     * param fieldRelative: Whether the provided x and y speeds are relative to the field.
+     */
+    
+    int axes0 = 0;
+
+    if (Math.abs(xSpeed) < InputConstants.DEADBAND) {
+      xSpeed = 0;
+      axes0 ++;
+    }
+
+    if (Math.abs(ySpeed) < InputConstants.DEADBAND) {
+      ySpeed = 0;
+      axes0 ++;
+    }
+
+    if (Math.abs(rot) < InputConstants.TURN_DEADBAND || this.turnLock) {
+      rot = 0;
+      axes0 ++;
+    } else {
+      rot -= Math.copySign(InputConstants.TURN_DEADBAND, rot);
+    }
+
+    ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+      -xSpeed * speed,
+      -ySpeed * speed,
+      -rot * speed * Math.PI,
+      this.gyro.getRotation2d() 
+    );
+
+    if (!fieldRelative) {
+      chassisSpeeds = new ChassisSpeeds(-xSpeed, -ySpeed, -rot);
+    }
+
+    SwerveModuleState[] swerveModulesStates = this.kinematics.toSwerveModuleStates(chassisSpeeds);
+
+    if (axes0 == 3) {
+      swerveModulesStates[0].angle = new Rotation2d(Math.PI / 4);
+      swerveModulesStates[1].angle = new Rotation2d(-Math.PI / 4);
+      swerveModulesStates[2].angle = new Rotation2d(-Math.PI / 4);
+      swerveModulesStates[3].angle = new Rotation2d(Math.PI / 4);
+    }
+
+    this.frontLeftModule.setDesiredState(swerveModulesStates[0]);
+    this.frontRightModule.setDesiredState(swerveModulesStates[1]);
+    this.backLeftModule.setDesiredState(swerveModulesStates[2]);
+    this.backRightModule.setDesiredState(swerveModulesStates[3]);
+  }
+
   public void setMaxOutput(double maxOutput) {
-    this.maxOut = maxOutput;
     this.frontLeftModule.setMaxOut(maxOutput);
     this.frontRightModule.setMaxOut(maxOutput);
     this.backLeftModule.setMaxOut(maxOutput);
