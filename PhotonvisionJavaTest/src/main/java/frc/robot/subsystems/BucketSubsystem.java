@@ -4,23 +4,25 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.SwerveDriveConstants;
+import frc.robot.Constants.MotorIDConstants;
 
-import com.revrobotics.spark.SparkLowLevel;
-
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.SparkMax;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 
 public class BucketSubsystem extends SubsystemBase {
 
+  private VictorSPX motor;
+
   public BucketSubsystem() {
+    super();
+
+    this.motor = new VictorSPX(MotorIDConstants.BUCKET_ID);
+    this.motor.setInverted(true);
+  }
+
+  public void setSpeed(double speed) {
+    this.motor.set(ControlMode.PercentOutput, speed);
   }
 }
