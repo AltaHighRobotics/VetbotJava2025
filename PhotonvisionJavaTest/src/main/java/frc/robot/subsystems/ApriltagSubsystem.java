@@ -7,15 +7,13 @@ package frc.robot.subsystems;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.opencv.photo.Photo;
 import org.photonvision.PhotonCamera;
-import org.photonvision.targeting.PhotonPipelineMetadata;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.PhotonVisionConsants;
 
 public class ApriltagSubsystem extends SubsystemBase {
 
@@ -26,7 +24,7 @@ public class ApriltagSubsystem extends SubsystemBase {
   public ApriltagSubsystem() {
     super(); 
 
-    this.camera = new PhotonCamera(OperatorConstants.CAMERA_NAME);
+    this.camera = new PhotonCamera(PhotonVisionConsants.CAMERA_NAME);
     this.targets = new ArrayList<PhotonTrackedTarget>();
   }
 
