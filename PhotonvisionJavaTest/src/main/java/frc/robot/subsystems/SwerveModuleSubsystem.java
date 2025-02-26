@@ -57,6 +57,10 @@ public class SwerveModuleSubsystem extends SubsystemBase {
     return new Rotation2d(this.turnEncoder.getPosition() * tau * gearRatio);
   }
 
+  void setMaxOut(double value) {
+    this.maxOut = value;
+  }
+
   /**
    * Example command factory method.
    *
