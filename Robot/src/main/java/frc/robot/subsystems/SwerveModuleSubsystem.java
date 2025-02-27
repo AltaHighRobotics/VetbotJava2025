@@ -27,7 +27,12 @@ public class SwerveModuleSubsystem extends SubsystemBase {
   private ProfiledPIDController turningPIDController;
   private double maxOut;
 
-  /** Creates a new SwerveModuleSubsystem. */
+  /**
+  * Construct module, pid, and start encoder
+  *
+  * @param driveID ID of the TalonFX, should be 2-5
+  * @param steerID ID of the SparkMax (turn), should be 22-55
+  */
   public SwerveModuleSubsystem(int driveID, int steerID, double P, double I, double D) {
     super();
 
@@ -50,16 +55,32 @@ public class SwerveModuleSubsystem extends SubsystemBase {
     this.maxOut = 0;
   }
 
+  /**
+  * Uses the encoder to calculate the current direction of the module
+  *
+  * @return The Rotation2d of the module
+  */
   public Rotation2d getEncoder() {
     final double tau = Math.PI * 2;
     final double gearRatio = SwerveDriveConstants.SWERVE_TURN_GEAR_RATIO;
     return new Rotation2d(this.turnEncoder.getPosition() * tau * gearRatio);
   }
 
+  /**
+  * Used to limit the speed of the robot
+  *
+  * @param value 0 - 1, max speed of the motor, 0.5 would be half speed
+  */
   public void setMaxOut(double value) {
     this.maxOut = value;
   }
 
+  /**
+  * Uses a SwerveModuleState outputed by kinematics.
+  * This of course sets the state, so it will keep running after the function is called once.
+  *
+  * @param desiredState The desired state of the module from kinematics
+  */
   public void setDesiredState(final SwerveModuleState desiredState) {
     final double tau = Math.PI * 2;
     final double gearRatio = SwerveDriveConstants.SWERVE_TURN_GEAR_RATIO;
