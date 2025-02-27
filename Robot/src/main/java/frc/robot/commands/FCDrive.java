@@ -33,7 +33,7 @@ public class FCDrive extends Command {
       final double rotationSpeed = this.driverController.getZ();
       final double speedScaling = (-(this.driverController.getRawAxis(3)) + 1.0) / 2.0;
     
-      this.driveSubsystem.drive(forwardSpeed, strafeSpeed, rotationSpeed, speedScaling, true);
+      this.driveSubsystem.drive(forwardSpeed, strafeSpeed, rotationSpeed, speedScaling);
     }
 
     // Called once the command ends or is interrupted.

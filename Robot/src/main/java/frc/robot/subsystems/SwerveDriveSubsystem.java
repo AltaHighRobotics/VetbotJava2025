@@ -37,6 +37,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   private SwerveDriveKinematics kinematics;
   
+  /**
+  * Constructs the drive, creates modules for each of the four motors.
+  * To create kinematics we need to give it locations which are created from the disance between the motors.
+  * Also Initalized the gyro.
+  */
   public SwerveDriveSubsystem() {
     super();
 
@@ -90,16 +95,14 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     this.setMaxOutput(SpeedConstants.SWERVE_MAX_OUTPUT);
   }
 
-  public void drive(double ySpeed, double xSpeed, double rot, double speed, boolean fieldRelative) {
-    /**
-     * Method to drive the robot using joystick info.
-     * param xSpeed: Speed of the robot in the x direction (forward).
-     * param ySpeed: Speed of the robot in the y direction (sideways).
-     * param rot: Angular rate of the robot.
-     * param speed: Speed scaler
-     * param fieldRelative: Whether the provided x and y speeds are relative to the field.
-     */
-    
+  /**
+  * All axis are based around the gyro, which can be reset at any time.
+  * @param ySpeed Speed to set the motors going along the y axis.
+  * @param xSpeed Speed to set the motors going along the x axis.
+  * @param rot The angular rate of the robot.
+  * @param speed Scales the speed, if set to 0 the robot won't move
+  */
+  public void drive(double ySpeed, double xSpeed, double rot, double speed) {
     int axes0 = 0;
 
     if (Math.abs(xSpeed) < InputConstants.DEADBAND) {
@@ -126,7 +129,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       this.gyro.getRotation2d() 
     );
 
-    if (!fieldRelative) {
+    if (!InputConstants.FIELD_ORIENTED) {
       chassisSpeeds = new ChassisSpeeds(-xSpeed, -ySpeed, -rot);
     }
 
@@ -152,7 +155,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     this.backRightModule.setMaxOut(maxOutput);
   }
 
-  public void FOReset() {
+  /**
+  * Resets the gyro, which resets the orientation.
+  * The x and y axis will be changed to fit how the robot is turned when called.
+  */
+  public void resetOrientation() {
     this.gyro.zeroYaw();
   }
 

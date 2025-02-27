@@ -17,6 +17,7 @@ public final class Constants {
     public static final int DRIVER_CONTROLLER_PORT = 0;
     public static final double DEADBAND = 0.2;
     public static final double TURN_DEADBAND = 0.5;
+    public static final boolean FIELD_ORIENTED = true;
   }
 
   public static class PhotonVisionConsants {

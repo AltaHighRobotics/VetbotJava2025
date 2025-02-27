@@ -29,7 +29,7 @@ public class FollowApriltagCommand extends Command {
     @Override
     public void execute() {
         if (apriltagSubsystem.getTargetYaw(0) != 0) {
-            drive.drive(1, 0, 0, 0.5, true);
+            drive.drive(1, 0, 0, 0.5);
         }
     }
 
