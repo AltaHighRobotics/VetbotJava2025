@@ -51,7 +51,7 @@ public class ApriltagSubsystem extends SubsystemBase {
     }
   }
 
-  double getTargetYaw(int id) {
+  public double getTargetYaw(int id) {
     List<PhotonTrackedTarget> newTargets = this.targets;
     if (newTargets != null) {
       for (PhotonTrackedTarget target : newTargets) {
