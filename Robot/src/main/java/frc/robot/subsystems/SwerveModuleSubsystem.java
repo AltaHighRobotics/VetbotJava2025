@@ -36,8 +36,8 @@ public class SwerveModuleSubsystem extends SubsystemBase {
   public SwerveModuleSubsystem(int driveID, int steerID, double P, double I, double D) {
     super();
 
-    this.drive = new TalonFX(driveID, "talonfx");
-    this.drive.setNeutralMode(NeutralModeValue.Brake);
+    this.drive = new TalonFX(driveID, "rio");
+    this.drive.setNeutralMode(NeutralModeValue.Brake); // Stop wheel from moving when weren't not driving
 
     this.turn = new SparkMax(steerID, SparkLowLevel.MotorType.kBrushless);
     this.turnEncoder = this.turn.getEncoder(); // Zero wheels before power on
@@ -52,6 +52,7 @@ public class SwerveModuleSubsystem extends SubsystemBase {
     );
     this.turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
+    // Default maxOutput to 0
     this.maxOut = 0;
   }
 
@@ -85,20 +86,23 @@ public class SwerveModuleSubsystem extends SubsystemBase {
     final double tau = Math.PI * 2;
     final double gearRatio = SwerveDriveConstants.SWERVE_TURN_GEAR_RATIO;
 
+    // Gets the current angle of the module
     final Rotation2d encoderRotation = this.getEncoder();
 
     SwerveModuleState state = desiredState;
 
-    state.angle = desiredState.angle.times(-1);
-    state.optimize(encoderRotation);
+    state.angle = desiredState.angle.times(-1); // Inverts the angle
+    state.optimize(encoderRotation); // Optimizes out unnessary rotatation when there's a faster way
     state.speedMetersPerSecond *= state.angle.minus(encoderRotation).getCos();
 
     final double driveOuput = state.speedMetersPerSecond;
     
+    // Uses PID to tell the SparkMax's how much to rotate
     final double turnOutput = this.turningPIDController.calculate(
       this.turnEncoder.getPosition() * tau * gearRatio, state.angle.getRadians()
     );
 
+    // Actually sets the speed of the motors and how much they need to rotate
     this.drive.set(Math.max(-this.maxOut, Math.min(driveOuput, this.maxOut)));
     this.turn.setVoltage(turnOutput);
   }

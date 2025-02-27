@@ -48,13 +48,15 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     final double P = PIDConstants.P;
     final double I = PIDConstants.I;
     final double D = PIDConstants.D;
-    final double ctc2 = SwerveDriveConstants.SWERVE_MOD_CENTER_TO_CENTER / 2.0;
+    final double ctc2 = SwerveDriveConstants.SWERVE_MOD_CENTER_TO_CENTER / 2.0; // Half the width of the side of the robot
 
+    // Uses the distance between the motors to get Translation2d posisions from the center of the robot
     this.frontLeftLocation = new Translation2d(ctc2, ctc2);
     this.frontRightLocation = new Translation2d(ctc2, -ctc2);
     this.backLeftLocation = new Translation2d(-ctc2, ctc2);
     this.backRightLocation = new Translation2d(-ctc2, -ctc2);
 
+    // Create our modules
     this.frontLeftModule = new SwerveModuleSubsystem(
       MotorIDConstants.FRONT_LEFT_DRIVE_ID, 
       MotorIDConstants.FRONT_LEFT_TURN_ID, 
@@ -83,6 +85,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     this.gyro = new AHRS(NavXComType.kMXP_SPI);
 
+    // Kinematics calculates our movement from x, y, and rot
     this.kinematics = new SwerveDriveKinematics(
       this.frontLeftLocation,
       this.frontRightLocation,
@@ -105,6 +108,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   public void drive(double ySpeed, double xSpeed, double rot, double speed) {
     int axes0 = 0;
 
+    // Checks if we are actually telling the robot to move or rotate
     if (Math.abs(xSpeed) < InputConstants.DEADBAND) {
       xSpeed = 0;
       axes0 ++;
@@ -122,19 +126,25 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       rot -= Math.copySign(InputConstants.TURN_DEADBAND, rot);
     }
 
-    ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-      -xSpeed * speed,
-      -ySpeed * speed,
-      -rot * speed * Math.PI,
-      this.gyro.getRotation2d() 
-    );
+    // Tells the robot which way it needs to go
+    ChassisSpeeds chassisSpeeds;
+    if (InputConstants.FIELD_ORIENTED) {
+      // v is for Velocity
+      final double vxMetersPerSecond = -xSpeed * speed;
+      final double vyMetersPerSecond = ySpeed * speed;
+      final double omegaRadiansPerSecond = -rot * speed * Math.PI;
+      Rotation2d robotAngle = this.gyro.getRotation2d();
 
-    if (!InputConstants.FIELD_ORIENTED) {
+      chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(vxMetersPerSecond, vyMetersPerSecond, 
+                                                            omegaRadiansPerSecond, robotAngle);
+    } else { // Not field oriented
       chassisSpeeds = new ChassisSpeeds(-xSpeed, -ySpeed, -rot);
     }
 
+    // Uses kinematics to calculate the module states from where we tell it to go
     SwerveModuleState[] swerveModulesStates = this.kinematics.toSwerveModuleStates(chassisSpeeds);
 
+    // Makes the wheel turn into an X pattern for defense
     if (axes0 == 3) {
       swerveModulesStates[0].angle = new Rotation2d(Math.PI / 4);
       swerveModulesStates[1].angle = new Rotation2d(-Math.PI / 4);
@@ -142,12 +152,17 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       swerveModulesStates[3].angle = new Rotation2d(Math.PI / 4);
     }
 
+    // Uses our method to set the rotation and speed of the modules from the calculated values
     this.frontLeftModule.setDesiredState(swerveModulesStates[0]);
     this.frontRightModule.setDesiredState(swerveModulesStates[1]);
     this.backLeftModule.setDesiredState(swerveModulesStates[2]);
     this.backRightModule.setDesiredState(swerveModulesStates[3]);
   }
 
+  /**
+  * Sets the max output for all of the modules
+  * @param maxOutput 0 - 1
+  */
   public void setMaxOutput(double maxOutput) {
     this.frontLeftModule.setMaxOut(maxOutput);
     this.frontRightModule.setMaxOut(maxOutput);
