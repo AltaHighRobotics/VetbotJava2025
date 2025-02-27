@@ -14,12 +14,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.InputConstants;
-import frc.robot.commands.AutonomusCommand;
 import frc.robot.commands.FCDrive;
 import frc.robot.commands.ResetOrientationCommand;
-import frc.robot.subsystems.BucketSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.StateSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
 /**
@@ -39,9 +35,6 @@ public class RobotContainer {
   private final Joystick driverController;
 
   private SwerveDriveSubsystem drive;
-  private BucketSubsystem bucket;
-  private IntakeSubsystem intake;
-  private StateSubsystem state;
 
   // private SendableChooser<Boolean> autoChooser;
 
@@ -49,9 +42,6 @@ public class RobotContainer {
     this.driverController = new Joystick(InputConstants.DRIVER_CONTROLLER_PORT);
 
     this.drive = new SwerveDriveSubsystem();
-    this.bucket = new BucketSubsystem();
-    this.intake = new IntakeSubsystem();
-    this.state = new StateSubsystem(this.drive);
 
     // this.autoChooser = new SendableChooser<>();
     // this.autoChooser.setDefaultOption("ON", new AutonomusCommand(this.drive, 2));
@@ -99,6 +89,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     // return Autos.exampleAuto(m_exampleSubsystem);
-    return new AutonomusCommand(this.drive, 10000);
+    return null;
   }
 }
