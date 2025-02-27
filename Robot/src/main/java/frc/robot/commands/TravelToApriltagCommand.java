@@ -38,8 +38,8 @@ public class TravelToApriltagCommand extends Command {
         final double yMetersAway = pose.getY();
         final Rotation3d rotationAway = pose.getRotation();
 
-        final double driveXSpeed = Math.abs(xMetersAway) - xMetersAway; // Make sure they are in terms of -1 to 1
-        final double driveYSpeed = Math.abs(yMetersAway) - yMetersAway;
+        final double driveXSpeed = Math.abs(xMetersAway) / xMetersAway; // Make sure they are in terms of -1 to 1
+        final double driveYSpeed = Math.abs(yMetersAway) / yMetersAway;
         final double driveRotation = rotationAway.getAngle();
         final double driveSpeed = 0.7;
 
