@@ -100,10 +100,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   /**
   * All axis are based around the gyro, which can be reset at any time.
-  * @param ySpeed Speed to set the motors going along the y axis.
-  * @param xSpeed Speed to set the motors going along the x axis.
-  * @param rot The angular rate of the robot.
-  * @param speed Scales the speed, if set to 0 the robot won't move
+  * @param ySpeed Speed to set the motors going along the y axis. -1 to 1
+  * @param xSpeed Speed to set the motors going along the x axis. -1 to 1
+  * @param rot The angular rate of the robot. Radians I think
+  * @param speed Scales the speed, if set to 0 the robot won't move. 0 to 1
   */
   public void drive(double ySpeed, double xSpeed, double rot, double speed) {
     int axes0 = 0;
