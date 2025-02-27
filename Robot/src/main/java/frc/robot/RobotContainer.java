@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.InputConstants;
+import frc.robot.commands.Autos;
 import frc.robot.commands.FCDrive;
 import frc.robot.commands.ResetOrientationCommand;
 import frc.robot.subsystems.SwerveDriveSubsystem;
@@ -82,6 +83,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     // return Autos.exampleAuto(m_exampleSubsystem);
-    return null;
+    return Autos.stationAlign(drive);
   }
 }
