@@ -1,5 +1,9 @@
 package frc.robot.commands;
 
+import org.photonvision.targeting.PhotonTrackedTarget;
+
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ApriltagSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
@@ -28,9 +32,18 @@ public class TravelToApriltagCommand extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (apriltagSubsystem.getTargetYaw(0) != 0) {
-            drive.drive(1, 0, 0, 0.5);
-        }
+        final PhotonTrackedTarget target = this.apriltagSubsystem.getFirstTarget();
+        final Transform3d pose = target.getBestCameraToTarget();
+        final double xMetersAway = pose.getX();
+        final double yMetersAway = pose.getY();
+        final Rotation3d rotationAway = pose.getRotation();
+
+        final double driveXSpeed = xMetersAway;
+        final double driveYSpeed = yMetersAway;
+        final double driveRotation = rotationAway.getAngle();
+        final double driveSpeed = 1;
+
+        drive.drive(driveXSpeed, driveYSpeed, driveRotation, driveSpeed);
     }
 
     // Called once the command ends or is interrupted.
