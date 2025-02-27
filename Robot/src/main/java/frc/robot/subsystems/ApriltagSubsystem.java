@@ -27,7 +27,7 @@ public class ApriltagSubsystem extends SubsystemBase {
     this.targets = new ArrayList<PhotonTrackedTarget>();
   }
 
-  public PhotonTrackedTarget getHighestID(List<PhotonTrackedTarget> targets) {
+  public PhotonTrackedTarget getHighestIDTarget(List<PhotonTrackedTarget> targets) {
     PhotonTrackedTarget bestTarget = targets.get(0);
 
     for (PhotonTrackedTarget target : targets) {
