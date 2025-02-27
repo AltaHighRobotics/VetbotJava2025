@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.InputConstants;
 import frc.robot.commands.Autos;
-import frc.robot.commands.FCDrive;
+import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.commands.FollowApriltagCommand;
 import frc.robot.commands.ResetOrientationCommand;
 import frc.robot.subsystems.ApriltagSubsystem;
@@ -44,7 +44,7 @@ public class RobotContainer {
 
     configureBindings();
 
-    this.drive.setDefaultCommand(new FCDrive(drive, driverController));
+    this.drive.setDefaultCommand(new SwerveDriveCommand(drive, driverController));
   }
 
   /**

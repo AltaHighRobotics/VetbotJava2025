@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
 /** An example command that uses an example subsystem. */
-public class FCDrive extends Command {
+public class SwerveDriveCommand extends Command {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final SwerveDriveSubsystem driveSubsystem;
     private Joystick driverController;
@@ -15,7 +15,7 @@ public class FCDrive extends Command {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public FCDrive(SwerveDriveSubsystem driveSubsystem, Joystick driverController) {
+    public SwerveDriveCommand(SwerveDriveSubsystem driveSubsystem, Joystick driverController) {
       this.driveSubsystem = driveSubsystem;
       this.driverController = driverController;
       addRequirements(driveSubsystem);
