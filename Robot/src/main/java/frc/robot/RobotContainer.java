@@ -36,17 +36,10 @@ public class RobotContainer {
 
   private SwerveDriveSubsystem drive;
 
-  // private SendableChooser<Boolean> autoChooser;
-
   public RobotContainer() {
     this.driverController = new Joystick(InputConstants.DRIVER_CONTROLLER_PORT);
 
     this.drive = new SwerveDriveSubsystem();
-
-    // this.autoChooser = new SendableChooser<>();
-    // this.autoChooser.setDefaultOption("ON", new AutonomusCommand(this.drive, 2));
-    // this.autoChooser.addOption("OFF", null);
-    // Shuffleboard.getTab("State").add("Auto", this.autoChooser);
 
     configureBindings();
 
