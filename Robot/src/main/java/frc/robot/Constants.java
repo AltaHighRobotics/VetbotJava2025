@@ -17,18 +17,11 @@ public final class Constants {
     public static final int DRIVER_CONTROLLER_PORT = 0;
     public static final double DEADBAND = 0.2;
     public static final double TURN_DEADBAND = 0.5;
+    public static final boolean FIELD_ORIENTED = true;
   }
 
   public static class PhotonVisionConsants {
     public static final String CAMERA_NAME = "camera1";
-  }
-
-  public static class StateConstants {
-    public static final String DEFAULT_OBJECTIVE = "I";
-    public static final double DEFAULT_BUCKET = 0;
-    public static final double DEFAULT_INTAKE = 0;
-    public static final double DEFAULT_END_STOP = -1;
-    public static final boolean DEFAULT_END_STOP_OVERRIDE = false;
   }
 
   public static class SwerveDriveConstants {
@@ -37,25 +30,10 @@ public final class Constants {
     public static final double MODULE_MAX_ANGULAR_VELOCITY = Math.PI;
     public static final double MODULE_MAX_ANGULAR_ACCELERATION = Math.PI * 2;
     public static final double WHEEL_RADIUS = 0.0508;
-  }
 
-  public static class EndstopConstants {
-    public static final int OUT_ENDSTOP_PORT = 3;
-    public static final int IN_ENDSTOP_PORT = 2;
-    public static final boolean ENDSTOP_INVERSION = true;
-  }
-
-  public static class SpeedConstants {
-    public static final double BUCKET_SPEED = 0.9;
-    public static final double INTAKE_SPEED = 0.8;
-    public static final double OUTTAKE_SPEED = 0.4;
     public static final double SWERVE_MIN_SPEED = 0.3;
     public static final double SWERVE_MAX_SPEED = 0.8;
     public static final double SWERVE_MAX_OUTPUT = 0.6;
-  }
-
-  public static class MotorIDConstants {
-    public static final int BUCKET_ID = 9;
 
     public static final int INTAKE_LEFT_ID = 10;
     public static final int INTAKE_RIGHT_ID = 11;
@@ -71,9 +49,19 @@ public final class Constants {
 
     public static final int BACK_RIGHT_DRIVE_ID = 5;
     public static final int BACK_RIGHT_TURN_ID = 55;
-  }
 
-  public static class PIDConstants {
+    public static final double P = 10;
+    public static final double I = 0;
+    public static final double D = 0.3;
+  }
+  
+  public static class ElevatorConstants {
+    public static final int TURN_ID = 66;
+
+    public static final double LEVEL1_HEIGHT = 100;
+    public static final double LEVEL2_HEIGHT = 200;
+    public static final double LEVEL3_HEIGHT = 300;
+
     public static final double P = 10;
     public static final double I = 0;
     public static final double D = 0.3;

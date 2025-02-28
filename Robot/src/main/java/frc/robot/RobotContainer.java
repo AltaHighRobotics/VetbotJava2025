@@ -5,21 +5,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.InputConstants;
-import frc.robot.commands.AutonomusCommand;
-import frc.robot.commands.FCDrive;
+import frc.robot.commands.Autos;
+import frc.robot.commands.SwerveDriveCommand;
+import frc.robot.commands.FollowApriltagCommand;
 import frc.robot.commands.ResetOrientationCommand;
-import frc.robot.subsystems.BucketSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.StateSubsystem;
+import frc.robot.subsystems.ApriltagSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
 /**
@@ -32,50 +25,24 @@ import frc.robot.subsystems.SwerveDriveSubsystem;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-  // Replace with CommandPS4Controller or CommandJoystick if needed
   private final Joystick driverController;
 
   private SwerveDriveSubsystem drive;
-  private BucketSubsystem bucket;
-  private IntakeSubsystem intake;
-  private StateSubsystem state;
-
-  // private SendableChooser<Boolean> autoChooser;
+  private ApriltagSubsystem apriltagSubsystem;
 
   public RobotContainer() {
     this.driverController = new Joystick(InputConstants.DRIVER_CONTROLLER_PORT);
 
     this.drive = new SwerveDriveSubsystem();
-    this.bucket = new BucketSubsystem();
-    this.intake = new IntakeSubsystem();
-    this.state = new StateSubsystem(this.drive);
-
-    // this.autoChooser = new SendableChooser<>();
-    // this.autoChooser.setDefaultOption("ON", new AutonomusCommand(this.drive, 2));
-    // this.autoChooser.addOption("OFF", null);
-    // Shuffleboard.getTab("State").add("Auto", this.autoChooser);
+    this.apriltagSubsystem = new ApriltagSubsystem();
 
     configureBindings();
 
-    this.drive.setDefaultCommand(new FCDrive(drive, driverController));
+    this.drive.setDefaultCommand(new SwerveDriveCommand(drive, driverController));
   }
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be
-   * created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
-   * an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-   * {@link
-   * CommandXboxController
-   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or
-   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
@@ -89,6 +56,9 @@ public class RobotContainer {
 
     JoystickButton gyroResetButton = new JoystickButton(driverController, 5);
     gyroResetButton.onTrue(new ResetOrientationCommand(this.drive));
+
+    JoystickButton followApriltagButton = new JoystickButton(driverController, 4);
+    followApriltagButton.onTrue(new FollowApriltagCommand(this.drive, this.apriltagSubsystem));
   }
 
   /**
@@ -98,7 +68,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    // return Autos.exampleAuto(m_exampleSubsystem);
-    return new AutonomusCommand(this.drive, 10000);
+    return Autos.stationAlign(drive, this.apriltagSubsystem);
   }
 }
