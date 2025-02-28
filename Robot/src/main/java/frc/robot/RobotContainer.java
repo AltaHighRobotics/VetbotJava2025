@@ -15,6 +15,8 @@ import frc.robot.commands.ResetOrientationCommand;
 import frc.robot.subsystems.ApriltagSubsystem;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
+import frc.robot.commands.MoveForward;
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -59,6 +61,9 @@ public class RobotContainer {
 
     JoystickButton followApriltagButton = new JoystickButton(driverController, 4);
     followApriltagButton.onTrue(new FollowApriltagCommand(this.drive, this.apriltagSubsystem));
+
+    JoystickButton moveForward = new JoystickButton(driverController, 1);
+    moveForward.onTrue(new MoveForward(this.drive));
   }
 
   /**
