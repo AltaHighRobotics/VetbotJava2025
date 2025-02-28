@@ -16,9 +16,9 @@ public class SwerveDriveCommand extends Command {
 
     @Override
     public void execute() {
-      final double driveXSpeed = 1;
-        final double driveYSpeed = 0;
-        final double driveRotation = 0;
+      final double driveXSpeed = 1.0;
+        final double driveYSpeed = 0.0;
+        final double driveRotation = 0.0;
         final double driveSpeed = 0.7;
 
         drive.drive(driveYSpeed, driveXSpeed, driveRotation, driveSpeed);
