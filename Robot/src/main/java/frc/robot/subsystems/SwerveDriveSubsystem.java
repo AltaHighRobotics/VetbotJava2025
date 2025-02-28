@@ -14,9 +14,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.InputConstants;
-import frc.robot.Constants.MotorIDConstants;
-import frc.robot.Constants.PIDConstants;
-import frc.robot.Constants.SpeedConstants;
 import frc.robot.Constants.SwerveDriveConstants;
 
 
@@ -45,9 +42,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   public SwerveDriveSubsystem() {
     super();
 
-    final double P = PIDConstants.P;
-    final double I = PIDConstants.I;
-    final double D = PIDConstants.D;
+    final double P = SwerveDriveConstants.P;
+    final double I = SwerveDriveConstants.I;
+    final double D = SwerveDriveConstants.D;
     final double ctc2 = SwerveDriveConstants.SWERVE_MOD_CENTER_TO_CENTER / 2.0; // Half the width of the side of the robot
 
     // Uses the distance between the motors to get Translation2d posisions from the center of the robot
@@ -58,26 +55,26 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     // Create our modules
     this.frontLeftModule = new SwerveModuleSubsystem(
-      MotorIDConstants.FRONT_LEFT_DRIVE_ID, 
-      MotorIDConstants.FRONT_LEFT_TURN_ID, 
+      SwerveDriveConstants.FRONT_LEFT_DRIVE_ID, 
+      SwerveDriveConstants.FRONT_LEFT_TURN_ID, 
       P, I, D
     );
 
     this.frontRightModule = new SwerveModuleSubsystem(
-      MotorIDConstants.FRONT_RIGHT_DRIVE_ID, 
-      MotorIDConstants.FRONT_RIGHT_TURN_ID, 
+      SwerveDriveConstants.FRONT_RIGHT_DRIVE_ID, 
+      SwerveDriveConstants.FRONT_RIGHT_TURN_ID, 
       P, I, D
     );
 
     this.backLeftModule = new SwerveModuleSubsystem(
-      MotorIDConstants.BACK_LEFT_DRIVE_ID, 
-      MotorIDConstants.BACK_LEFT_TURN_ID, 
+      SwerveDriveConstants.BACK_LEFT_DRIVE_ID, 
+      SwerveDriveConstants.BACK_LEFT_TURN_ID, 
       P, I, D
     );
 
     this.backRightModule = new SwerveModuleSubsystem(
-      MotorIDConstants.BACK_RIGHT_DRIVE_ID, 
-      MotorIDConstants.BACK_RIGHT_TURN_ID, 
+      SwerveDriveConstants.BACK_RIGHT_DRIVE_ID, 
+      SwerveDriveConstants.BACK_RIGHT_TURN_ID, 
       P, I, D
     );
 
@@ -95,7 +92,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     this.gyro.reset();
 
-    this.setMaxOutput(SpeedConstants.SWERVE_MAX_OUTPUT);
+    this.setMaxOutput(SwerveDriveConstants.SWERVE_MAX_OUTPUT);
   }
 
   /**
