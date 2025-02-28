@@ -26,12 +26,12 @@ public class ElevatorSubsystem extends SubsystemBase{
         this.pidController = new PIDController(P, I, D);
     }
 
-    void setHeight(double height) {
+    public void setHeight(double height) {
         final double motorOutput = this.pidController.calculate(encoder.getPosition(), height);
         motorController.set(motorOutput);
     }
 
-    double getHeight() {
+    public double getHeight() {
         return encoder.getPosition();
     }
 }
