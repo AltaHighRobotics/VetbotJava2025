@@ -54,4 +54,12 @@ public final class Constants {
     public static final double I = 0;
     public static final double D = 0.3;
   }
+  
+  public static class ElevatorConstants {
+    public static final int TURN_ID = 66;
+
+    public static final double P = 10;
+    public static final double I = 0;
+    public static final double D = 0.3;
+  }
 }
