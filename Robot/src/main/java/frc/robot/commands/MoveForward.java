@@ -8,10 +8,20 @@ import frc.robot.subsystems.SwerveDriveSubsystem;
 public class SwerveDriveCommand extends Command {
     private final SwerveDriveSubsystem drive;
 
-    
+
     public ResetOrientationCommand(SwerveDriveSubsystem drive) {
       this.drive = drive;
       addRequirements(drive);
+    }
+
+    @Override
+    public void execute() {
+      final double driveXSpeed = 1
+        final double driveYSpeed = 0
+        final double driveRotation = 0
+        final double driveSpeed = 0.7;
+
+        drive.drive(driveYSpeed, driveXSpeed, driveRotation, driveSpeed);
     }
 
 
