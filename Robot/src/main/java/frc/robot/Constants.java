@@ -56,15 +56,20 @@ public final class Constants {
   }
   
   public static class ElevatorConstants {
-    public static final int TURN_ID = 66;
+    public static final int TURN_1_ID = 66;
+    public static final int TURN_2_ID = 77;
 
-    public static final double LEVEL1_HEIGHT = 100;
-    public static final double LEVEL2_HEIGHT = 200;
-    public static final double LEVEL3_HEIGHT = 300;
+    public static final double TOP_MAG = 35;
 
-    public static final double P = 10;
+    public static final double MOTOR_SPEED = 0.1;
+
+    public static final double LEVEL1_HEIGHT = 0.2;
+    public static final double LEVEL2_HEIGHT = 0.5;
+    public static final double LEVEL3_HEIGHT = 0.9;
+
+    public static final double P = 0.5;
     public static final double I = 0;
-    public static final double D = 0.3;
+    public static final double D = 0;
   }
 
   public static class SuckNBlowConstants {

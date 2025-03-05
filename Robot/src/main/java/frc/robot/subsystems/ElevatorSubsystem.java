@@ -4,25 +4,27 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 
 public class ElevatorSubsystem extends SubsystemBase{
-    private TalonFX motorController;
+    private SparkMax motorController1;
+    private SparkMax motorController2;
+    private RelativeEncoder encoder;
     private PIDController pidController;
     private double targetHeightPercentage = 0.0;
 
     public ElevatorSubsystem() {
         super();
-        this.motorController = new TalonFX(ElevatorConstants.MOTOR_ID, "rio");
+        this.motorController1 = new SparkMax(ElevatorConstants.TURN_1_ID, MotorType.kBrushless);
+        this.motorController2 = new SparkMax(ElevatorConstants.TURN_2_ID, MotorType.kBrushless);
 
         final double P = ElevatorConstants.P;
         final double I = ElevatorConstants.I;
         final double D = ElevatorConstants.D;
         this.pidController = new PIDController(P, I, D);
-
-        this.motorController.setNeutralMode(NeutralModeValue.Brake);
     }
 
     /**
@@ -50,7 +52,8 @@ public class ElevatorSubsystem extends SubsystemBase{
             motorOutput *= 0.5;
         }
 
-        motorController.set(motorOutput);
+        motorController1.set(motorOutput);
+        motorController2.set(-motorOutput);
     }
 
     /**
@@ -58,7 +61,7 @@ public class ElevatorSubsystem extends SubsystemBase{
      * @return Height as revolutions
      */
     public double getHeight() {
-        final double realMotorAngle = this.motorController.getPosition().getValue().magnitude();
+        final double realMotorAngle = this.encoder.getPosition();
         return realMotorAngle;
     }
 
@@ -71,15 +74,18 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     public void goUp() {
-        motorController.set(ElevatorConstants.MOTOR_SPEED);
+        motorController1.set(ElevatorConstants.MOTOR_SPEED);
+        motorController2.set(-ElevatorConstants.MOTOR_SPEED);
     }
 
     public void goDown() {
-        motorController.set(-ElevatorConstants.MOTOR_SPEED);
+        motorController1.set(-ElevatorConstants.MOTOR_SPEED);
+        motorController2.set(ElevatorConstants.MOTOR_SPEED);
     }
 
     public void stop() {
-        motorController.set(0);
+        motorController1.set(0);
+        motorController2.set(0);
     }
 }
 
