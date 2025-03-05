@@ -66,4 +66,11 @@ public final class Constants {
     public static final double I = 0;
     public static final double D = 0.3;
   }
+
+  public static class SuckNBlowConstants {
+    public static final int SPARK_MAX_ID = 42;
+    public static final double MOTOR_SUCK_SPEED = 0.4;
+    public static final double MOTOR_BLOW_SPEED = 0.8;
+  }
+
 }
