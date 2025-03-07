@@ -78,4 +78,15 @@ public final class Constants {
     public static final double MOTOR_BLOW_SPEED = 0.8;
   }
 
+  public static class ClawConstants { //Pretty much a copy of the elevator constants, along with the subsystem and commands
+    public static final int TURN_ID = 7; //This ID can be changed later
+
+    public static final double MOTOR_MAX_OUTPUT = 0.2;
+    public static final double MOTOR_REVOLUTIONS_FOR_FULL_ROTATION = 100;
+
+    public static final double P = 2;
+    public static final double I = 0;
+    public static final double D = 0;
+  }
+  
 }
