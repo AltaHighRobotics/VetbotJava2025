@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.InputConstants;
+import frc.robot.commands.SuckNBlowCommands.BlowCommand;
+import frc.robot.commands.SuckNBlowCommands.SuckCommand;
 import frc.robot.commands.Swerve.ResetOrientationCommand;
 import frc.robot.commands.Swerve.SwerveDriveCommand;
 import frc.robot.commands.claw.ClawBackward;
@@ -18,6 +20,8 @@ import frc.robot.commands.elevator.ElevatorMoveToTarget;
 import frc.robot.commands.elevator.ElevatorUp;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.SuckNBlowSubsystem;
+import frc.robot.subsystems.SuckNBlowSubsystem.OralType;
 import frc.robot.subsystems.Swerve.SwerveDriveSubsystem;
 
 /**
@@ -35,6 +39,7 @@ public class RobotContainer {
   private SwerveDriveSubsystem drive;
   private ElevatorSubsystem elevatorSubsystem;
   private ClawSubsystem clawSubsystem;
+  private SuckNBlowSubsystem suckNBlowSubsystem;
 
   public RobotContainer() {
     this.driverController = new Joystick(InputConstants.DRIVER_CONTROLLER_PORT);
@@ -42,6 +47,7 @@ public class RobotContainer {
     this.drive = new SwerveDriveSubsystem();
     this.elevatorSubsystem  = new ElevatorSubsystem();
     this.clawSubsystem = new ClawSubsystem();
+    this.suckNBlowSubsystem = new SuckNBlowSubsystem();
 
     configureBindings();
 
@@ -75,6 +81,11 @@ public class RobotContainer {
     JoystickButton clawBackwardButton = new JoystickButton(driverController, 4);
     clawForwardButton.whileTrue(new ClawForward(this.clawSubsystem));
     clawBackwardButton.whileTrue(new ClawBackward(this.clawSubsystem));
+
+    JoystickButton suckButton = new JoystickButton(driverController, 1);
+    JoystickButton blowButton = new JoystickButton(driverController, 6);
+    suckButton.whileTrue(new SuckCommand(this.suckNBlowSubsystem));
+    blowButton.whileTrue(new BlowCommand(this.suckNBlowSubsystem));
   }
 
   /**
