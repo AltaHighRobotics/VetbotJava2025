@@ -12,8 +12,10 @@ import frc.robot.Constants.ElevatorConstants;
 public class ElevatorSubsystem extends SubsystemBase{
     private SparkMax motorController1;
     private SparkMax motorController2;
+
     private RelativeEncoder encoder;
     private PIDController pidController;
+
     private double targetHeightPercentage = 0.0;
 
     public ElevatorSubsystem() {
@@ -74,16 +76,15 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     public void goUp() {
-        motorController1.set(ElevatorConstants.MOTOR_SPEED);
-        motorController2.set(-ElevatorConstants.MOTOR_SPEED);
+        targetHeightPercentage += 0.01;
     }
 
     public void goDown() {
-        motorController1.set(-ElevatorConstants.MOTOR_SPEED);
-        motorController2.set(ElevatorConstants.MOTOR_SPEED);
+        targetHeightPercentage -= 0.01;
     }
 
     public void stop() {
+        targetHeightPercentage = getHeightAsPercentage();
         motorController1.set(0);
         motorController2.set(0);
     }

@@ -10,6 +10,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.InputConstants;
 import frc.robot.commands.Swerve.ResetOrientationCommand;
 import frc.robot.commands.Swerve.SwerveDriveCommand;
+import frc.robot.commands.elevator.ElevatorDown;
+import frc.robot.commands.elevator.ElevatorMoveToTarget;
+import frc.robot.commands.elevator.ElevatorUp;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Swerve.SwerveDriveSubsystem;
 
 /**
@@ -25,14 +29,17 @@ public class RobotContainer {
   private final Joystick driverController;
 
   private SwerveDriveSubsystem drive;
+  private ElevatorSubsystem elevatorSubsystem;
 
   public RobotContainer() {
     this.driverController = new Joystick(InputConstants.DRIVER_CONTROLLER_PORT);
 
     this.drive = new SwerveDriveSubsystem();
+    this.elevatorSubsystem  = new ElevatorSubsystem();
 
     configureBindings();
 
+    this.elevatorSubsystem.setDefaultCommand(new ElevatorMoveToTarget(this.elevatorSubsystem));
     this.drive.setDefaultCommand(new SwerveDriveCommand(drive, driverController));
   }
 
@@ -49,8 +56,13 @@ public class RobotContainer {
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    JoystickButton gyroResetButton = new JoystickButton(driverController, 5);
+    JoystickButton gyroResetButton = new JoystickButton(driverController, 11);
     gyroResetButton.onTrue(new ResetOrientationCommand(this.drive));
+    
+    JoystickButton elevatorUpButton = new JoystickButton(driverController, 3);
+    JoystickButton elevatorDownButton = new JoystickButton(driverController, 2);
+    elevatorUpButton.whileTrue(new ElevatorUp(this.elevatorSubsystem));
+    elevatorDownButton.whileTrue(new ElevatorDown(this.elevatorSubsystem));
   }
 
   /**
