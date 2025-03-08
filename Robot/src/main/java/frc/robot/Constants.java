@@ -26,7 +26,7 @@ public final class Constants {
 
   public static class SwerveDriveConstants {
     public static final double SWERVE_TURN_GEAR_RATIO = 1.0/180.0;
-    public static final double SWERVE_MOD_CENTER_TO_CENTER = 0.635;
+    public static final double SWERVE_MOD_CENTER_TO_CENTER = 0.5842;
     public static final double MODULE_MAX_ANGULAR_VELOCITY = Math.PI;
     public static final double MODULE_MAX_ANGULAR_ACCELERATION = Math.PI * 2;
     public static final double WHEEL_RADIUS = 0.0508;
@@ -56,12 +56,12 @@ public final class Constants {
   }
   
   public static class ElevatorConstants {
-    public static final int TURN_1_ID = 66;
-    public static final int TURN_2_ID = 77;
+    public static final int TURN_1_ID = 7;
+    public static final int TURN_2_ID = 6;
 
     public static final double TOP_MAG = 35;
 
-    public static final double MOTOR_SPEED = 0.1;
+    public static final double MOTOR_SPEED = 0.4;
 
     public static final double LEVEL1_HEIGHT = 0.2;
     public static final double LEVEL2_HEIGHT = 0.5;
@@ -79,7 +79,7 @@ public final class Constants {
   }
 
   public static class ClawConstants { //Pretty much a copy of the elevator constants, along with the subsystem and commands
-    public static final int TURN_ID = 7; //This ID can be changed later
+    public static final int TURN_ID = 8; //This ID can be changed later
 
     public static final double MOTOR_MAX_OUTPUT = 0.2;
     public static final double MOTOR_REVOLUTIONS_FOR_FULL_ROTATION = 40;

@@ -8,6 +8,7 @@ public class ClawGoToTarget extends Command{
 
     public ClawGoToTarget(ClawSubsystem subsystem) {
         this.subsystem = subsystem;
+        addRequirements(subsystem);
     }
 
     @Override

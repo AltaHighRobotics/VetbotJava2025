@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -10,8 +11,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 
 public class ElevatorSubsystem extends SubsystemBase{
-    private SparkMax motorController1;
-    private SparkMax motorController2;
+    private SparkFlex motorController1;
+    private SparkFlex motorController2;
 
     private RelativeEncoder encoder;
     private PIDController pidController;
@@ -20,8 +21,10 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     public ElevatorSubsystem() {
         super();
-        this.motorController1 = new SparkMax(ElevatorConstants.TURN_1_ID, MotorType.kBrushless);
-        this.motorController2 = new SparkMax(ElevatorConstants.TURN_2_ID, MotorType.kBrushless);
+        this.motorController1 = new SparkFlex(ElevatorConstants.TURN_1_ID, MotorType.kBrushless);
+        this.motorController2 = new SparkFlex(ElevatorConstants.TURN_2_ID, MotorType.kBrushless);
+
+        this.encoder = motorController1.getEncoder();
 
         final double P = ElevatorConstants.P;
         final double I = ElevatorConstants.I;

@@ -10,6 +10,7 @@ public class ElevatorMoveToTarget extends Command {
     
     public ElevatorMoveToTarget(ElevatorSubsystem subsystem) {
         this.subsystem = subsystem;
+        addRequirements(subsystem);
     }
 
     @Override

@@ -53,7 +53,7 @@ public class RobotContainer {
 
     this.clawSubsystem.setDefaultCommand(new ClawGoToTarget(clawSubsystem));
     this.elevatorSubsystem.setDefaultCommand(new ElevatorMoveToTarget(this.elevatorSubsystem));
-    this.drive.setDefaultCommand(new SwerveDriveCommand(drive, driverController));
+    // this.drive.setDefaultCommand(new SwerveDriveCommand(drive, driverController));
   }
 
   /**

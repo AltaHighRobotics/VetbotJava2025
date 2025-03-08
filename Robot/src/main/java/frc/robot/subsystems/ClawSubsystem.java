@@ -6,9 +6,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClawConstants;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
 
 public class ClawSubsystem extends SubsystemBase{
-    private TalonFX motor;
+    private SparkMax motor;
     private PIDController pidController;
     
     private double targetDegrees = -1;
@@ -16,14 +18,14 @@ public class ClawSubsystem extends SubsystemBase{
     public ClawSubsystem() {
         super();
 
-        this.motor = new TalonFX(ClawConstants.TURN_ID);
+        this.motor = new SparkMax(ClawConstants.TURN_ID, MotorType.kBrushless);
 
         final double P = ClawConstants.P;
         final double I = ClawConstants.I;
         final double D = ClawConstants.D;
         this.pidController = new PIDController(P, I, D);
 
-        this.motor.setNeutralMode(NeutralModeValue.Brake);
+        // this.motor.setNeutralMode(NeutralModeValue.Brake);
     }
 
     public void moveToTarget() {
@@ -47,7 +49,7 @@ public class ClawSubsystem extends SubsystemBase{
     }
 
     public double getDegrees() {
-        final double currentMotorRevolutions = this.motor.getPosition().getValue().magnitude();
+        final double currentMotorRevolutions = this.motor.getEncoder().getPosition();
         double currentMotorPercentage = currentMotorRevolutions / ClawConstants.MOTOR_REVOLUTIONS_FOR_FULL_ROTATION;
 
         // Make sure motor resets after 359 deg
