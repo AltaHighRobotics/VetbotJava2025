@@ -53,7 +53,7 @@ public class RobotContainer {
 
     this.clawSubsystem.setDefaultCommand(new ClawGoToTarget(clawSubsystem));
     this.elevatorSubsystem.setDefaultCommand(new ElevatorMoveToTarget(this.elevatorSubsystem));
-    // this.drive.setDefaultCommand(new SwerveDriveCommand(drive, driverController));
+    this.drive.setDefaultCommand(new SwerveDriveCommand(drive, driverController));
   }
 
   /**
@@ -72,18 +72,18 @@ public class RobotContainer {
     JoystickButton gyroResetButton = new JoystickButton(driverController, 11);
     gyroResetButton.onTrue(new ResetOrientationCommand(this.drive));
     
-    JoystickButton elevatorUpButton = new JoystickButton(driverController, 3);
-    JoystickButton elevatorDownButton = new JoystickButton(driverController, 2);
+    JoystickButton elevatorUpButton = new JoystickButton(driverController, 5);
+    JoystickButton elevatorDownButton = new JoystickButton(driverController, 3);
     elevatorUpButton.whileTrue(new ElevatorUp(this.elevatorSubsystem));
     elevatorDownButton.whileTrue(new ElevatorDown(this.elevatorSubsystem));
 
-    JoystickButton clawForwardButton = new JoystickButton(driverController, 5);
+    JoystickButton clawForwardButton = new JoystickButton(driverController, 6);
     JoystickButton clawBackwardButton = new JoystickButton(driverController, 4);
     clawForwardButton.whileTrue(new ClawForward(this.clawSubsystem));
     clawBackwardButton.whileTrue(new ClawBackward(this.clawSubsystem));
 
     JoystickButton suckButton = new JoystickButton(driverController, 1);
-    JoystickButton blowButton = new JoystickButton(driverController, 6);
+    JoystickButton blowButton = new JoystickButton(driverController, 2);
     suckButton.whileTrue(new SuckCommand(this.suckNBlowSubsystem));
     blowButton.whileTrue(new BlowCommand(this.suckNBlowSubsystem));
   }
