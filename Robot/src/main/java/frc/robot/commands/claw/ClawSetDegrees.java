@@ -18,7 +18,7 @@ public class ClawSetDegrees extends Command {
     }
 
     @Override
-    public execute() {
+    public void execute() {
         this.subsystem.setRev(this.targetDegrees / 360); // This logic is not finished and might not work
     }
 }
