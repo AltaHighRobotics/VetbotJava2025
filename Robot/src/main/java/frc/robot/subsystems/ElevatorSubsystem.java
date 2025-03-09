@@ -24,6 +24,7 @@ public class ElevatorSubsystem extends SubsystemBase{
         this.motorController1 = new SparkFlex(ElevatorConstants.TURN_1_ID, MotorType.kBrushless);
         this.motorController2 = new SparkFlex(ElevatorConstants.TURN_2_ID, MotorType.kBrushless);
 
+
         this.encoder = motorController1.getEncoder();
 
         final double P = ElevatorConstants.P;
@@ -48,17 +49,18 @@ public class ElevatorSubsystem extends SubsystemBase{
         final double currentPositionRevolutions = this.getHeight();
 
         double motorOutput = this.pidController.calculate(currentPositionRevolutions, targetPositionRevolutions);
+        System.out.printf("Elevator Motor raw: %.6f\n", motorOutput);
 
         // Clamp limits the motor speed, should probably use the max output speed but oh well this works too
         motorOutput = MathUtil.clamp(motorOutput, -ElevatorConstants.MOTOR_SPEED, ElevatorConstants.MOTOR_SPEED);
 
         // Make it move half as fast when going down (Gravity makes it go down quicker)
-        if (motorOutput < 0) {
-            motorOutput *= 0.5;
-        }
+        // if (motorOutput < 0) {
+        //     motorOutput *= 0.5;
+        // }
 
-        motorController1.set(motorOutput);
-        motorController2.set(-motorOutput);
+        motorController1.setVoltage(motorOutput);
+        motorController2.setVoltage(-motorOutput);
     }
 
     /**
