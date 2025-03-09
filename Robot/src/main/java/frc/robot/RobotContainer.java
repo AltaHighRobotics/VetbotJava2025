@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.InputConstants;
+import frc.robot.commands.ArmSetPosition;
 import frc.robot.commands.SuckNBlowCommands.BlowCommand;
 import frc.robot.commands.SuckNBlowCommands.SuckCommand;
 import frc.robot.commands.Swerve.ResetOrientationCommand;
@@ -54,6 +55,11 @@ public class RobotContainer {
     this.clawSubsystem.setDefaultCommand(new ClawGoToTarget(clawSubsystem));
     this.elevatorSubsystem.setDefaultCommand(new ElevatorMoveToTarget(this.elevatorSubsystem));
     this.drive.setDefaultCommand(new SwerveDriveCommand(drive, driverController));
+  }
+
+  private void addStateBinding(int buttonID, double elevatorHeight, double clawDegrees) {
+    JoystickButton button = new JoystickButton(this.driverController, buttonID);
+    button.whileTrue(new ArmSetPosition(elevatorSubsystem, clawSubsystem, elevatorHeight, clawDegrees));
   }
 
   /**
