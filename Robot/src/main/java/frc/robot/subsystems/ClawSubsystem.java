@@ -46,7 +46,7 @@ public class ClawSubsystem extends SubsystemBase{
     }
 
     public double getRev() {
-        return getRawRev() * ClawConstants.REV_FOR_FULL_ROTATION;
+        return getRawRev() / ClawConstants.REV_FOR_FULL_ROTATION;
     }
 
     public void forward() {
