@@ -82,6 +82,7 @@ public final class Constants {
     public static final int TURN_ID = 8; //This ID can be changed later
 
     public static final double MOTOR_MAX_OUTPUT =  11;
+    public static final double REV_FOR_FULL_ROTATION = 30;
 
     public static final double P = 2;
     public static final double I = 0;

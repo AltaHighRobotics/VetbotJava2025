@@ -41,8 +41,12 @@ public class ClawSubsystem extends SubsystemBase{
         this.targetRev = targetRev;
     }
 
-    public double getRev() {
+    public double getRawRev() {
         return this.motor.getEncoder().getPosition();
+    }
+
+    public double getRev() {
+        return getRawRev() * ClawConstants.REV_FOR_FULL_ROTATION;
     }
 
     public void forward() {
