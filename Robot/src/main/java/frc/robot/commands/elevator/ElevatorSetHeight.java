@@ -14,11 +14,11 @@ public class ElevatorSetHeight extends Command {
             throw new Error("Target Height for ElevatorSetHeight must be between 0 and 1");
         }
 
-        this.targetHeight = targetHeightPercentage;
+        this.targetHeightPercentage = targetHeightPercentage;
     }
 
     @Override
-    public execute() {
+    public void execute() {
         this.subsystem.setHeight(this.targetHeightPercentage);
     }
 }
