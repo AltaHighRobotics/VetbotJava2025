@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.Swerve;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -37,7 +37,7 @@ public class SwerveModuleSubsystem extends SubsystemBase {
     super();
 
     this.drive = new TalonFX(driveID, "rio");
-    this.drive.setNeutralMode(NeutralModeValue.Brake); // Stop wheel from moving when weren't not driving
+    this.drive.setNeutralMode(NeutralModeValue.Coast); // Stop wheel from moving when weren't not driving
 
     this.turn = new SparkMax(steerID, SparkLowLevel.MotorType.kBrushless);
     this.turnEncoder = this.turn.getEncoder(); // Zero wheels before power on
