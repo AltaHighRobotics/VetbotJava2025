@@ -7,6 +7,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 
@@ -31,6 +32,11 @@ public class ElevatorSubsystem extends SubsystemBase{
         final double I = ElevatorConstants.I;
         final double D = ElevatorConstants.D;
         this.pidController = new PIDController(P, I, D);
+
+
+        SmartDashboard.putNumber("Elevator P", P);
+        SmartDashboard.putNumber("Elevator I", I);
+        SmartDashboard.putNumber("Elevator D", D);
     }
 
     /**
@@ -47,6 +53,11 @@ public class ElevatorSubsystem extends SubsystemBase{
     public void moveToTargetHeight() { // Meant to be called each tick
         final double targetPositionRevolutions = targetHeightPercentage * ElevatorConstants.TOP_MAG;
         final double currentPositionRevolutions = this.getHeight();
+
+        final double newP = SmartDashboard.getEntry("Elevator P").getDouble(0);
+        final double newI = SmartDashboard.getEntry("Elevator I").getDouble(0);
+        final double newD = SmartDashboard.getEntry("Elevator D").getDouble(0);
+        this.pidController.setPID(newP, newI, newD);
 
         double motorOutput = this.pidController.calculate(currentPositionRevolutions, targetPositionRevolutions);
         System.out.printf("Elevator Motor raw: %.6f\n", motorOutput);
