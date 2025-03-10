@@ -47,6 +47,8 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     public void moveToTargetHeight() { // Meant to be called each tick
+        targetHeightPercentage = MathUtil.clamp(targetHeightPercentage, 0, 1);
+        
         final double targetPositionRevolutions = targetHeightPercentage * ElevatorConstants.TOP_MAG;
         final double currentPositionRevolutions1 = this.getHeight(this.motorController1.getEncoder());
         final double currentPositionRevolutions2 = this.getHeight(this.motorController2.getEncoder());
@@ -91,11 +93,11 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     public void goUp() {
-        targetHeightPercentage += 0.01;
+        targetHeightPercentage += ElevatorConstants.MANUAL_SPEED;
     }
 
     public void goDown() {
-        targetHeightPercentage -= 0.01;
+        targetHeightPercentage -= ElevatorConstants.MANUAL_SPEED;
     }
 
     public void stop() {
