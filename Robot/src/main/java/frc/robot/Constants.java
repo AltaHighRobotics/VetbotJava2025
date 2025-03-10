@@ -63,6 +63,8 @@ public final class Constants {
 
     public static final double MOTOR_SPEED = 11;
 
+    public static final double MANUAL_SPEED = 0.01;
+
     public static final double LEVEL1_HEIGHT = 0.2;
     public static final double LEVEL2_HEIGHT = 0.5;
     public static final double LEVEL3_HEIGHT = 0.9;

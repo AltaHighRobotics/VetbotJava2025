@@ -93,11 +93,11 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     public void goUp() {
-        targetHeightPercentage += 0.01;
+        targetHeightPercentage += ElevatorConstants.MANUAL_SPEED;
     }
 
     public void goDown() {
-        targetHeightPercentage -= 0.01;
+        targetHeightPercentage -= ElevatorConstants.MANUAL_SPEED;
     }
 
     public void stop() {
