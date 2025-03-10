@@ -37,6 +37,8 @@ public class ClawSubsystem extends SubsystemBase{
         System.out.printf("Target Rev: %.6f\n", this.targetRev);
         System.out.printf("Current Rev: %.6f\n", this.getRev());
 
+        this.targetRev = MathUtil.clamp(targetRev, 0, 1);
+
         // Adjust the PID to shuffleboard
         final double newP = SmartDashboard.getEntry("Claw P").getDouble(0);
         final double newI = SmartDashboard.getEntry("Claw I").getDouble(0);
