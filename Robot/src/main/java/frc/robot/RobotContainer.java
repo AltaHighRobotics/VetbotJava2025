@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.InputConstants;
@@ -35,7 +36,7 @@ import frc.robot.subsystems.Swerve.SwerveDriveSubsystem;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  private final Joystick driverController;
+  private final XboxController driverController;
 
   private SwerveDriveSubsystem drive;
   private ElevatorSubsystem elevatorSubsystem;
@@ -43,7 +44,7 @@ public class RobotContainer {
   private SuckNBlowSubsystem suckNBlowSubsystem;
 
   public RobotContainer() {
-    this.driverController = new Joystick(InputConstants.DRIVER_CONTROLLER_PORT);
+    this.driverController = new XboxController(InputConstants.DRIVER_CONTROLLER_PORT);
 
     this.drive = new SwerveDriveSubsystem();
     this.elevatorSubsystem  = new ElevatorSubsystem();
@@ -54,7 +55,7 @@ public class RobotContainer {
 
     this.clawSubsystem.setDefaultCommand(new ClawGoToTarget(clawSubsystem));
     this.elevatorSubsystem.setDefaultCommand(new ElevatorMoveToTarget(this.elevatorSubsystem));
-    this.drive.setDefaultCommand(new SwerveDriveCommand(drive, driverController));
+    this.drive.setDefaultCommand(new SwerveDriveCommand(drive, this.driverController));
   }
 
   private void addStateBinding(int buttonID, double elevatorHeight, double clawDegrees) {
@@ -75,21 +76,21 @@ public class RobotContainer {
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    JoystickButton gyroResetButton = new JoystickButton(driverController, 11);
+    JoystickButton gyroResetButton = new JoystickButton(driverController, 7);
     gyroResetButton.onTrue(new ResetOrientationCommand(this.drive));
     
-    JoystickButton elevatorUpButton = new JoystickButton(driverController, 5);
-    JoystickButton elevatorDownButton = new JoystickButton(driverController, 3);
+    JoystickButton elevatorUpButton = new JoystickButton(driverController, 4);
+    JoystickButton elevatorDownButton = new JoystickButton(driverController, 1);
     elevatorUpButton.whileTrue(new ElevatorUp(this.elevatorSubsystem));
     elevatorDownButton.whileTrue(new ElevatorDown(this.elevatorSubsystem));
 
-    JoystickButton clawForwardButton = new JoystickButton(driverController, 6);
-    JoystickButton clawBackwardButton = new JoystickButton(driverController, 4);
+    JoystickButton clawForwardButton = new JoystickButton(driverController, 3);
+    JoystickButton clawBackwardButton = new JoystickButton(driverController, 2);
     clawForwardButton.whileTrue(new ClawForward(this.clawSubsystem));
     clawBackwardButton.whileTrue(new ClawBackward(this.clawSubsystem));
 
-    JoystickButton suckButton = new JoystickButton(driverController, 1);
-    JoystickButton blowButton = new JoystickButton(driverController, 2);
+    JoystickButton suckButton = new JoystickButton(driverController, 5);
+    JoystickButton blowButton = new JoystickButton(driverController, 6);
     suckButton.whileTrue(new SuckCommand(this.suckNBlowSubsystem));
     blowButton.whileTrue(new BlowCommand(this.suckNBlowSubsystem));
 
