@@ -32,4 +32,9 @@ public class SuckCommand extends Command {
     public void execute() {
       this.subsystem.set(OralType.SUCK);
     }
+    
+    @Override
+    public void end(boolean interrupted) {
+      this.subsystem.set(OralType.STOP);
+    }
 }

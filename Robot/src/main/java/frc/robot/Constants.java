@@ -50,7 +50,7 @@ public final class Constants {
     public static final int BACK_RIGHT_DRIVE_ID = 5;
     public static final int BACK_RIGHT_TURN_ID = 55;
 
-    public static final double P = 60;
+    public static final double P = 50;
     public static final double I = 0;
     public static final double D = 0;
   }
