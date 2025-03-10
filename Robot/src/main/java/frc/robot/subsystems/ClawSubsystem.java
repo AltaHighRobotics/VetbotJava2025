@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClawConstants;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -25,12 +26,22 @@ public class ClawSubsystem extends SubsystemBase{
         final double D = ClawConstants.D;
         this.pidController = new PIDController(P, I, D);
 
+        SmartDashboard.putNumber("Claw P", P);
+        SmartDashboard.putNumber("Claw I", I);
+        SmartDashboard.putNumber("Claw D", D);
+
         // this.motor.setNeutralMode(NeutralModeValue.Brake);
     }
 
     public void moveToTarget() {
         System.out.printf("Target Rev: %.6f\n", this.targetRev);
         System.out.printf("Current Rev: %.6f\n", this.getRev());
+
+        // Adjust the PID to shuffleboard
+        final double newP = SmartDashboard.getEntry("Claw P").getDouble(0);
+        final double newI = SmartDashboard.getEntry("Claw I").getDouble(0);
+        final double newD = SmartDashboard.getEntry("Claw D").getDouble(0);
+        this.pidController.setPID(newP, newI, newD);
 
         final double motorRawOutput = this.pidController.calculate(this.getRev(), this.targetRev);
         final double limitedMotorOutput = MathUtil.clamp(motorRawOutput, -ClawConstants.MOTOR_MAX_OUTPUT, ClawConstants.MOTOR_MAX_OUTPUT);
