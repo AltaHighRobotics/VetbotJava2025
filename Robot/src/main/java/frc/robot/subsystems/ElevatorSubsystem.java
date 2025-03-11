@@ -58,6 +58,7 @@ public class ElevatorSubsystem extends SubsystemBase{
      * This is meant to be called in a default command (Looping in the background all the time)
      */
     public void moveToTargetHeight() { // Meant to be called each tick
+        // Make sure the height is between 0 and 1
         targetHeightPercentage = MathUtil.clamp(targetHeightPercentage, 0, 1);
         
         final double targetPositionRevolutions = targetHeightPercentage * ElevatorConstants.TOP_MAG;
@@ -70,6 +71,8 @@ public class ElevatorSubsystem extends SubsystemBase{
 
 
         // We are going to track the position of each motor seperatly
+        // The second motors target is reversed (with -targetPositionRevolutions) because our motors need to go opposite 
+        // directions to raise the elevator
         final double currentPositionRevolutions1 = this.getHeight(this.motorController1.getEncoder());
         final double currentPositionRevolutions2 = this.getHeight(this.motorController2.getEncoder());
         double motorOutput1 = this.pidController.calculate(currentPositionRevolutions1, targetPositionRevolutions);
