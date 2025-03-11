@@ -3,6 +3,9 @@ package frc.robot.commands.claw;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ClawSubsystem;
 
+/**
+ * Sets the target degrees of the claw
+ */
 public class ClawSetDegrees extends Command {
     ClawSubsystem subsystem;    
     double targetDegrees;
@@ -19,6 +22,6 @@ public class ClawSetDegrees extends Command {
 
     @Override
     public void execute() {
-        this.subsystem.setRev(this.targetDegrees / 360); // This logic is not finished and might not work
+        this.subsystem.setRev(this.targetDegrees / 360); 
     }
 }
