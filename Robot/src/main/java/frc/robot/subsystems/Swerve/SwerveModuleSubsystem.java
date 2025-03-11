@@ -96,10 +96,11 @@ public class SwerveModuleSubsystem extends SubsystemBase {
     state.speedMetersPerSecond *= state.angle.minus(encoderRotation).getCos();
 
     final double driveOuput = state.speedMetersPerSecond;
+    final double currentRadians = this.turnEncoder.getPosition() * tau * gearRatio;
     
     // Uses PID to tell the SparkMax's how much to rotate
     final double turnOutput = this.turningPIDController.calculate(
-      this.turnEncoder.getPosition() * tau * gearRatio, state.angle.getRadians()
+      currentRadians, state.angle.getRadians()
     );
 
     // Actually sets the speed of the motors and how much they need to rotate
