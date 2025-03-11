@@ -29,7 +29,6 @@ public class ClawSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("Claw P", P);
         SmartDashboard.putNumber("Claw I", I);
         SmartDashboard.putNumber("Claw D", D);
-
         // this.motor.setNeutralMode(NeutralModeValue.Brake);
     }
 
@@ -37,7 +36,7 @@ public class ClawSubsystem extends SubsystemBase{
         System.out.printf("Target Rev: %.6f\n", this.targetRev);
         System.out.printf("Current Rev: %.6f\n", this.getRev());
 
-        this.targetRev = MathUtil.clamp(targetRev, 0, 1);
+        this.targetRev = MathUtil.clamp(targetRev, 0.15, 1);
 
         // Adjust the PID to shuffleboard
         final double newP = SmartDashboard.getEntry("Claw P").getDouble(0);
@@ -45,7 +44,7 @@ public class ClawSubsystem extends SubsystemBase{
         final double newD = SmartDashboard.getEntry("Claw D").getDouble(0);
         this.pidController.setPID(newP, newI, newD);
 
-        final double motorRawOutput = this.pidController.calculate(this.getRev(), this.targetRev);
+        final double motorRawOutput = this.pidController.calculate(this.getRev(), -this.targetRev);
         final double limitedMotorOutput = MathUtil.clamp(motorRawOutput, -ClawConstants.MOTOR_MAX_OUTPUT, ClawConstants.MOTOR_MAX_OUTPUT);
         motor.setVoltage(limitedMotorOutput);
     }
@@ -63,11 +62,11 @@ public class ClawSubsystem extends SubsystemBase{
     }
 
     public void forward() {
-        setRev(this.targetRev + 0.03);
+        setRev(this.targetRev + 0.005);
     }
 
     public void backward() {
-        setRev(this.targetRev - 0.03);
+        setRev(this.targetRev - 0.005);
     }
 
     public void stop() {

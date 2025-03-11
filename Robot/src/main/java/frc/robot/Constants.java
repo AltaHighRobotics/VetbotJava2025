@@ -59,9 +59,9 @@ public final class Constants {
     public static final int TURN_1_ID = 7;
     public static final int TURN_2_ID = 6;
 
-    public static final double TOP_MAG = 30;
+    public static final double TOP_MAG = 110;
 
-    public static final double MOTOR_SPEED = 11;
+    public static final double MOTOR_SPEED = 12;
 
     public static final double MANUAL_SPEED = 0.01;
 
@@ -69,9 +69,9 @@ public final class Constants {
     public static final double LEVEL2_HEIGHT = 0.5;
     public static final double LEVEL3_HEIGHT = 0.9;
 
-    public static final double P = 2;
+    public static final double P = 1;
     public static final double I = 0;
-    public static final double D = 0;
+    public static final double D = 0.001;
   }
 
   public static class SuckNBlowConstants {
@@ -84,9 +84,9 @@ public final class Constants {
     public static final int TURN_ID = 8; //This ID can be changed later
 
     public static final double MOTOR_MAX_OUTPUT =  11;
-    public static final double REV_FOR_FULL_ROTATION = 30;
+    public static final double REV_FOR_FULL_ROTATION = 25;
 
-    public static final double P = 2;
+    public static final double P = 20;
     public static final double I = 0;
     public static final double D = 0;
   }

@@ -29,7 +29,6 @@ public class ElevatorSubsystem extends SubsystemBase{
         final double D = ElevatorConstants.D;
         this.pidController = new PIDController(P, I, D);
 
-
         SmartDashboard.putNumber("Elevator P", P);
         SmartDashboard.putNumber("Elevator I", I);
         SmartDashboard.putNumber("Elevator D", D);
@@ -39,11 +38,7 @@ public class ElevatorSubsystem extends SubsystemBase{
      * @param height A percentage (0 to 1)
      */
     public void setHeight(final double heightPercentage) {
-        if (heightPercentage < 0 || heightPercentage > 1 ) {
-            throw new Error("Height should be between 0 and 1");
-        } 
-
-        targetHeightPercentage = heightPercentage;
+        targetHeightPercentage = MathUtil.clamp(heightPercentage, 0.2, 1);
     }
 
     public void moveToTargetHeight() { // Meant to be called each tick

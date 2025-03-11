@@ -37,6 +37,7 @@ import frc.robot.subsystems.Swerve.SwerveDriveSubsystem;
  */
 public class RobotContainer {
   private final XboxController driverController;
+  private final Joystick stateController;
 
   private SwerveDriveSubsystem drive;
   private ElevatorSubsystem elevatorSubsystem;
@@ -45,6 +46,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     this.driverController = new XboxController(InputConstants.DRIVER_CONTROLLER_PORT);
+    this.stateController = new Joystick(1);
 
     this.drive = new SwerveDriveSubsystem();
     this.elevatorSubsystem  = new ElevatorSubsystem();
@@ -59,7 +61,7 @@ public class RobotContainer {
   }
 
   private void addStateBinding(int buttonID, double elevatorHeight, double clawDegrees) {
-    JoystickButton button = new JoystickButton(this.driverController, buttonID);
+    JoystickButton button = new JoystickButton(this.stateController, buttonID);
     button.whileTrue(new ArmSetPosition(elevatorSubsystem, clawSubsystem, elevatorHeight, clawDegrees));
   }
 
@@ -94,8 +96,8 @@ public class RobotContainer {
     suckButton.whileTrue(new SuckCommand(this.suckNBlowSubsystem));
     blowButton.whileTrue(new BlowCommand(this.suckNBlowSubsystem));
 
-    // addStateBinding(100, 0.1, 10);
-    // addStateBinding(100, 0.1, 10);
+    addStateBinding(7, 0.1, 10);
+    addStateBinding(8, 0.5, 50);
     // addStateBinding(100, 0.1, 10);
     // addStateBinding(100, 0.1, 10);
     // addStateBinding(100, 0.1, 10);
