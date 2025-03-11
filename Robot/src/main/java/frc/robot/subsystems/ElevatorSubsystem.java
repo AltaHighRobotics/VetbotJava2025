@@ -42,6 +42,7 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     public void moveToTargetHeight() { // Meant to be called each tick
+        System.out.printf("Elevator Height: %.6f\n", targetHeightPercentage);
         targetHeightPercentage = MathUtil.clamp(targetHeightPercentage, 0, 1);
         
         final double targetPositionRevolutions = targetHeightPercentage * ElevatorConstants.TOP_MAG;
@@ -55,8 +56,6 @@ public class ElevatorSubsystem extends SubsystemBase{
 
         double motorOutput1 = this.pidController.calculate(currentPositionRevolutions1, targetPositionRevolutions);
         double motorOutput2 = this.pidController.calculate(currentPositionRevolutions2, -targetPositionRevolutions);
-        System.out.printf("Elevator Motor raw: %.6f\n", motorOutput1);
-
         // Clamp limits the motor speed, should probably use the max output speed but oh well this works too
         motorOutput1 = MathUtil.clamp(motorOutput1, -ElevatorConstants.MOTOR_SPEED, ElevatorConstants.MOTOR_SPEED);
         motorOutput2 = MathUtil.clamp(motorOutput2, -ElevatorConstants.MOTOR_SPEED, ElevatorConstants.MOTOR_SPEED);

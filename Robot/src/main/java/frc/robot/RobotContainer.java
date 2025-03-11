@@ -96,13 +96,15 @@ public class RobotContainer {
     suckButton.whileTrue(new SuckCommand(this.suckNBlowSubsystem));
     blowButton.whileTrue(new BlowCommand(this.suckNBlowSubsystem));
 
-    addStateBinding(7, 0.1, 10);
-    addStateBinding(8, 0.5, 50);
-    // addStateBinding(100, 0.1, 10);
-    // addStateBinding(100, 0.1, 10);
-    // addStateBinding(100, 0.1, 10);
-    // addStateBinding(100, 0.1, 10);
-    // addStateBinding(100, 0.1, 10);
+    // addStateBinding(8, 0.1, 10); // L1
+    // addStateBinding(9, 0.5, 50); // L2
+    // addStateBinding(10, 0.5, 50); // L3
+    // addStateBinding(12, 0.5, 50); // L4
+    // addStateBinding(7, 0.5, 50); // CG
+    // addStateBinding(6, 0.5, 50); // RP1
+    // addStateBinding(5, 0.5, 50); // RP2
+    // addStateBinding(4, 0.5, 50); // BS
+    
   }
 
   /**
