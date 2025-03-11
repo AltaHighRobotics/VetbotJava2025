@@ -3,6 +3,9 @@ package frc.robot.commands.elevator;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
 
+/**
+ * Sets the target height of the elevator, will not work without the MoveToTarget default command
+ */
 public class ElevatorSetHeight extends Command {
     ElevatorSubsystem subsystem;    
     double targetHeightPercentage;

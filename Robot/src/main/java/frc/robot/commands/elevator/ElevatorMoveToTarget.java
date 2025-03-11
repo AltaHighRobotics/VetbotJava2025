@@ -1,10 +1,11 @@
 package frc.robot.commands.elevator;
 
-import java.util.EventListener;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
 
+/**
+ * Meant to be a default command, makes the motor use pid to move towards it target
+ */
 public class ElevatorMoveToTarget extends Command {
     ElevatorSubsystem subsystem;
     

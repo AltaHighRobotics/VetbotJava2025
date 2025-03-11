@@ -1,10 +1,11 @@
 package frc.robot.commands.elevator;
 
-import java.util.EventListener;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
 
+/**
+ * Manully adjusts the elevator target higher
+ */
 public class ElevatorUp extends Command {
     ElevatorSubsystem subsystem;
     
