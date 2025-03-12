@@ -84,18 +84,18 @@ public class RobotContainer {
     JoystickButton gyroResetButton = new JoystickButton(driverController, 5);
     gyroResetButton.onTrue(new ResetOrientationCommand(this.drive));
     
-    JoystickButton elevatorUpButton = new JoystickButton(stateController, 1);
-    JoystickButton elevatorDownButton = new JoystickButton(stateController, 12);
+    JoystickButton elevatorUpButton = new JoystickButton(driverController, 8);
+    JoystickButton elevatorDownButton = new JoystickButton(driverController, 7);
     elevatorUpButton.whileTrue(new ElevatorUp(this.elevatorSubsystem));
     elevatorDownButton.whileTrue(new ElevatorDown(this.elevatorSubsystem));
 
-    JoystickButton clawForwardButton = new JoystickButton(stateController, 2);
-    JoystickButton clawBackwardButton = new JoystickButton(stateController, 3);
+    JoystickButton clawForwardButton = new JoystickButton(driverController, 10);
+    JoystickButton clawBackwardButton = new JoystickButton(driverController, 9);
     clawForwardButton.whileTrue(new ClawForward(this.clawSubsystem));
     clawBackwardButton.whileTrue(new ClawBackward(this.clawSubsystem));
 
-    JoystickButton suckButton = new JoystickButton(driverController, 1);
-    JoystickButton blowButton = new JoystickButton(driverController, 2);
+    JoystickButton suckButton = new JoystickButton(driverController, 2);
+    JoystickButton blowButton = new JoystickButton(driverController, 1);
     suckButton.whileTrue(new SuckCommand(this.suckNBlowSubsystem));
     blowButton.whileTrue(new BlowCommand(this.suckNBlowSubsystem));
 
