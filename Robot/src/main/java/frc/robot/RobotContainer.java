@@ -81,16 +81,16 @@ public class RobotContainer {
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    JoystickButton gyroResetButton = new JoystickButton(driverController, 7);
+    JoystickButton gyroResetButton = new JoystickButton(driverController, 5);
     gyroResetButton.onTrue(new ResetOrientationCommand(this.drive));
     
-    JoystickButton elevatorUpButton = new JoystickButton(driverController, 5);
-    JoystickButton elevatorDownButton = new JoystickButton(driverController, 3);
+    JoystickButton elevatorUpButton = new JoystickButton(stateController, 1);
+    JoystickButton elevatorDownButton = new JoystickButton(stateController, 12);
     elevatorUpButton.whileTrue(new ElevatorUp(this.elevatorSubsystem));
     elevatorDownButton.whileTrue(new ElevatorDown(this.elevatorSubsystem));
 
-    JoystickButton clawForwardButton = new JoystickButton(driverController, 6);
-    JoystickButton clawBackwardButton = new JoystickButton(driverController, 4);
+    JoystickButton clawForwardButton = new JoystickButton(stateController, 2);
+    JoystickButton clawBackwardButton = new JoystickButton(stateController, 3);
     clawForwardButton.whileTrue(new ClawForward(this.clawSubsystem));
     clawBackwardButton.whileTrue(new ClawBackward(this.clawSubsystem));
 
@@ -109,7 +109,7 @@ public class RobotContainer {
     addStateBinding(4, 0, 235); // BS
 
 
-    JoystickButton makeFIeldOriented = new JoystickButton(driverController, 12);
+    JoystickButton makeFIeldOriented = new JoystickButton(driverController, 3);
     makeFIeldOriented.whileTrue(new SwitchToRobotOriented(drive));
     makeFIeldOriented.whileFalse(new SwitchToFieldOriented(drive));
   }
