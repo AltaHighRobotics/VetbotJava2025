@@ -142,7 +142,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(vxMetersPerSecond, vyMetersPerSecond, 
                                                             omegaRadiansPerSecond, robotAngle);
     } else { // Not field oriented
-      chassisSpeeds = new ChassisSpeeds(xSpeed/2, ySpeed/2, -rot/2);
+      chassisSpeeds = new ChassisSpeeds(-xSpeed/2, ySpeed/2, -rot/2);
     }
 
     // Uses kinematics to calculate the module states from where we tell it to go
