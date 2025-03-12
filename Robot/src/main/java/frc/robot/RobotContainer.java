@@ -15,6 +15,8 @@ import frc.robot.commands.SuckNBlowCommands.BlowCommand;
 import frc.robot.commands.SuckNBlowCommands.SuckCommand;
 import frc.robot.commands.Swerve.ResetOrientationCommand;
 import frc.robot.commands.Swerve.SwerveDriveCommand;
+import frc.robot.commands.Swerve.SwitchToFieldOriented;
+import frc.robot.commands.Swerve.SwitchToRobotOriented;
 import frc.robot.commands.claw.ClawBackward;
 import frc.robot.commands.claw.ClawForward;
 import frc.robot.commands.claw.ClawGoToTarget;
@@ -105,7 +107,11 @@ public class RobotContainer {
     addStateBinding(6, 0.25, 235); // RP1
     addStateBinding(5, 0.5, 235); // RP2
     addStateBinding(4, 0, 235); // BS
-    
+
+
+    JoystickButton makeFIeldOriented = new JoystickButton(driverController, 12);
+    makeFIeldOriented.whileTrue(new SwitchToRobotOriented(drive));
+    makeFIeldOriented.whileFalse(new SwitchToFieldOriented(drive));
   }
 
   /**
