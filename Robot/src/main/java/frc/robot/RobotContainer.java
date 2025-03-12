@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.InputConstants;
 import frc.robot.commands.ArmSetPosition;
 import frc.robot.commands.Autos;
@@ -84,13 +85,13 @@ public class RobotContainer {
     JoystickButton gyroResetButton = new JoystickButton(driverController, 5);
     gyroResetButton.onTrue(new ResetOrientationCommand(this.drive));
     
-    JoystickButton elevatorUpButton = new JoystickButton(driverController, 8);
-    JoystickButton elevatorDownButton = new JoystickButton(driverController, 7);
+    POVButton elevatorUpButton = new POVButton(driverController, 90);
+    POVButton elevatorDownButton = new POVButton(driverController, 270);
     elevatorUpButton.whileTrue(new ElevatorUp(this.elevatorSubsystem));
     elevatorDownButton.whileTrue(new ElevatorDown(this.elevatorSubsystem));
 
-    JoystickButton clawForwardButton = new JoystickButton(driverController, 10);
-    JoystickButton clawBackwardButton = new JoystickButton(driverController, 9);
+    POVButton clawForwardButton = new POVButton(driverController, 0);
+    POVButton clawBackwardButton = new POVButton(driverController, 180);
     clawForwardButton.whileTrue(new ClawForward(this.clawSubsystem));
     clawBackwardButton.whileTrue(new ClawBackward(this.clawSubsystem));
 
@@ -103,7 +104,7 @@ public class RobotContainer {
     addStateBinding(9, 0.35, 275); // L2
     addStateBinding(10, 0.57, 275); // L3
     addStateBinding(11, 0.91, 275); // L4
-    addStateBinding(7, 0, 153); // CG
+    addStateBinding(7, 0, 150); // CG
     addStateBinding(6, 0.25, 235); // RP1
     addStateBinding(5, 0.5, 235); // RP2
     addStateBinding(4, 0, 235); // BS

@@ -29,6 +29,6 @@ class MoveForwardStupid extends Command {
             return;
         }
 
-        drive.drive(0, -1, 0, 0.3);
+        drive.drive(0, 1, 0, AutonomousConstants.driveSpeed);
     }
 }
