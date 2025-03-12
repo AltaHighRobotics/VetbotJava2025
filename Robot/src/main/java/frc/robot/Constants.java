@@ -91,4 +91,7 @@ public final class Constants {
     public static final double D = 0;
   }
   
+  public static class AutonomousConstants {
+    public static final long milisecondsAlive = 1500;
+  }
 }

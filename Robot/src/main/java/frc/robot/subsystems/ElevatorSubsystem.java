@@ -42,7 +42,6 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     public void moveToTargetHeight() { // Meant to be called each tick
-        System.out.printf("Elevator Height: %.6f\n", targetHeightPercentage);
         targetHeightPercentage = MathUtil.clamp(targetHeightPercentage, 0, 1);
         
         final double targetPositionRevolutions = targetHeightPercentage * ElevatorConstants.TOP_MAG;
