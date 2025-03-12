@@ -25,7 +25,7 @@ public final class Constants {
   }
 
   public static class SwerveDriveConstants {
-    public static final double SWERVE_TURN_GEAR_RATIO = 1.0/170.0;
+    public static final double SWERVE_TURN_GEAR_RATIO = 1.0/171.52;
     public static final double SWERVE_MOD_CENTER_TO_CENTER = 0.5842;
     public static final double MODULE_MAX_ANGULAR_VELOCITY = Math.PI;
     public static final double MODULE_MAX_ANGULAR_ACCELERATION = Math.PI * 2;
@@ -50,26 +50,28 @@ public final class Constants {
     public static final int BACK_RIGHT_DRIVE_ID = 5;
     public static final int BACK_RIGHT_TURN_ID = 55;
 
-    public static final double P = 15;
+    public static final double P = 50;
     public static final double I = 0;
-    public static final double D = 0.3;
+    public static final double D = 0;
   }
   
   public static class ElevatorConstants {
     public static final int TURN_1_ID = 7;
     public static final int TURN_2_ID = 6;
 
-    public static final double TOP_MAG = 35;
+    public static final double TOP_MAG = 110;
 
-    public static final double MOTOR_SPEED = 0.4;
+    public static final double MOTOR_SPEED = 12;
+
+    public static final double MANUAL_SPEED = 0.01;
 
     public static final double LEVEL1_HEIGHT = 0.2;
     public static final double LEVEL2_HEIGHT = 0.5;
     public static final double LEVEL3_HEIGHT = 0.9;
 
-    public static final double P = 0.5;
+    public static final double P = 1;
     public static final double I = 0;
-    public static final double D = 0;
+    public static final double D = 0.001;
   }
 
   public static class SuckNBlowConstants {
@@ -81,10 +83,10 @@ public final class Constants {
   public static class ClawConstants { //Pretty much a copy of the elevator constants, along with the subsystem and commands
     public static final int TURN_ID = 8; //This ID can be changed later
 
-    public static final double MOTOR_MAX_OUTPUT = 0.5;
-    public static final double MOTOR_REVOLUTIONS_FOR_FULL_ROTATION = 40;
+    public static final double MOTOR_MAX_OUTPUT =  11;
+    public static final double REV_FOR_FULL_ROTATION = 25;
 
-    public static final double P = 2;
+    public static final double P = 20;
     public static final double I = 0;
     public static final double D = 0;
   }

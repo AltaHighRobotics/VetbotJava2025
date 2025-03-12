@@ -143,10 +143,17 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     // Makes the wheel turn into an X pattern for defense
     if (axes0 == 3) {
+      /*// X Pattern
       swerveModulesStates[0].angle = new Rotation2d(Math.PI / 4);
       swerveModulesStates[1].angle = new Rotation2d(-Math.PI / 4);
       swerveModulesStates[2].angle = new Rotation2d(-Math.PI / 4);
       swerveModulesStates[3].angle = new Rotation2d(Math.PI / 4);
+      */
+      // O Pattern
+      swerveModulesStates[0].angle = new Rotation2d(-Math.PI / 4);
+      swerveModulesStates[1].angle = new Rotation2d(Math.PI / 4);
+      swerveModulesStates[2].angle = new Rotation2d(Math.PI / 4);
+      swerveModulesStates[3].angle = new Rotation2d(-Math.PI / 4);
     }
 
     // Uses our method to set the rotation and speed of the modules from the calculated values

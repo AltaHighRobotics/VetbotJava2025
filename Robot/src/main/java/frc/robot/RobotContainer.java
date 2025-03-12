@@ -5,9 +5,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.InputConstants;
+import frc.robot.commands.ArmSetPosition;
 import frc.robot.commands.SuckNBlowCommands.BlowCommand;
 import frc.robot.commands.SuckNBlowCommands.SuckCommand;
 import frc.robot.commands.Swerve.ResetOrientationCommand;
@@ -35,6 +37,7 @@ import frc.robot.subsystems.Swerve.SwerveDriveSubsystem;
  */
 public class RobotContainer {
   private final Joystick driverController;
+  private final Joystick stateController;
 
   private SwerveDriveSubsystem drive;
   private ElevatorSubsystem elevatorSubsystem;
@@ -43,6 +46,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     this.driverController = new Joystick(InputConstants.DRIVER_CONTROLLER_PORT);
+    this.stateController = new Joystick(1);
 
     this.drive = new SwerveDriveSubsystem();
     this.elevatorSubsystem  = new ElevatorSubsystem();
@@ -53,7 +57,12 @@ public class RobotContainer {
 
     this.clawSubsystem.setDefaultCommand(new ClawGoToTarget(clawSubsystem));
     this.elevatorSubsystem.setDefaultCommand(new ElevatorMoveToTarget(this.elevatorSubsystem));
-    this.drive.setDefaultCommand(new SwerveDriveCommand(drive, driverController));
+    this.drive.setDefaultCommand(new SwerveDriveCommand(drive, this.driverController));
+  }
+
+  private void addStateBinding(int buttonID, double elevatorHeight, double clawDegrees) {
+    JoystickButton button = new JoystickButton(this.stateController, buttonID);
+    button.whileTrue(new ArmSetPosition(elevatorSubsystem, clawSubsystem, elevatorHeight, clawDegrees));
   }
 
   /**
@@ -69,7 +78,7 @@ public class RobotContainer {
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    JoystickButton gyroResetButton = new JoystickButton(driverController, 11);
+    JoystickButton gyroResetButton = new JoystickButton(driverController, 7);
     gyroResetButton.onTrue(new ResetOrientationCommand(this.drive));
     
     JoystickButton elevatorUpButton = new JoystickButton(driverController, 5);
@@ -86,6 +95,16 @@ public class RobotContainer {
     JoystickButton blowButton = new JoystickButton(driverController, 2);
     suckButton.whileTrue(new SuckCommand(this.suckNBlowSubsystem));
     blowButton.whileTrue(new BlowCommand(this.suckNBlowSubsystem));
+
+    addStateBinding(8, 0, 216); // L1
+    addStateBinding(9, 0.35, 275); // L2
+    addStateBinding(10, 0.57, 275); // L3
+    addStateBinding(11, 0.91, 275); // L4
+    addStateBinding(7, 0, 153); // CG
+    addStateBinding(6, 0.25, 235); // RP1
+    addStateBinding(5, 0.5, 235); // RP2
+    addStateBinding(4, 0, 235); // BS
+    
   }
 
   /**

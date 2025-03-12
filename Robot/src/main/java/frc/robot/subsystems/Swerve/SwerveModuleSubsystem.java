@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveDriveConstants;
 
@@ -54,6 +55,10 @@ public class SwerveModuleSubsystem extends SubsystemBase {
 
     // Default maxOutput to 0
     this.maxOut = 0;
+
+    SmartDashboard.putNumber("Swerve P", P);
+    SmartDashboard.putNumber("Swerve I", I);
+    SmartDashboard.putNumber("Swerve D", D);
   }
 
   /**
@@ -83,6 +88,11 @@ public class SwerveModuleSubsystem extends SubsystemBase {
   * @param desiredState The desired state of the module from kinematics
   */
   public void setDesiredState(final SwerveModuleState desiredState) {
+    final double newP = SmartDashboard.getEntry("Swerve P").getDouble(0);
+    final double newI = SmartDashboard.getEntry("Swerve I").getDouble(0);
+    final double newD = SmartDashboard.getEntry("Swerve D").getDouble(0);
+    this.turningPIDController.setPID(newP, newI, newD);
+
     final double tau = Math.PI * 2;
     final double gearRatio = SwerveDriveConstants.SWERVE_TURN_GEAR_RATIO;
 
