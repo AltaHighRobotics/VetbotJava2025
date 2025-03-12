@@ -38,7 +38,7 @@ public class ElevatorSubsystem extends SubsystemBase{
      * @param height A percentage (0 to 1)
      */
     public void setHeight(final double heightPercentage) {
-        targetHeightPercentage = MathUtil.clamp(heightPercentage, 0.2, 1);
+        targetHeightPercentage = MathUtil.clamp(heightPercentage, 0.01, 1);
     }
 
     public void moveToTargetHeight() { // Meant to be called each tick

@@ -81,29 +81,29 @@ public class RobotContainer {
     JoystickButton gyroResetButton = new JoystickButton(driverController, 7);
     gyroResetButton.onTrue(new ResetOrientationCommand(this.drive));
     
-    JoystickButton elevatorUpButton = new JoystickButton(driverController, 4);
-    JoystickButton elevatorDownButton = new JoystickButton(driverController, 1);
+    JoystickButton elevatorUpButton = new JoystickButton(driverController, 5);
+    JoystickButton elevatorDownButton = new JoystickButton(driverController, 3);
     elevatorUpButton.whileTrue(new ElevatorUp(this.elevatorSubsystem));
     elevatorDownButton.whileTrue(new ElevatorDown(this.elevatorSubsystem));
 
-    JoystickButton clawForwardButton = new JoystickButton(driverController, 3);
-    JoystickButton clawBackwardButton = new JoystickButton(driverController, 2);
+    JoystickButton clawForwardButton = new JoystickButton(driverController, 6);
+    JoystickButton clawBackwardButton = new JoystickButton(driverController, 4);
     clawForwardButton.whileTrue(new ClawForward(this.clawSubsystem));
     clawBackwardButton.whileTrue(new ClawBackward(this.clawSubsystem));
 
-    JoystickButton suckButton = new JoystickButton(driverController, 5);
-    JoystickButton blowButton = new JoystickButton(driverController, 6);
+    JoystickButton suckButton = new JoystickButton(driverController, 1);
+    JoystickButton blowButton = new JoystickButton(driverController, 2);
     suckButton.whileTrue(new SuckCommand(this.suckNBlowSubsystem));
     blowButton.whileTrue(new BlowCommand(this.suckNBlowSubsystem));
 
-    addStateBinding(8, 0.3, 275); // L1
-    addStateBinding(9, 0.5, 275); // L2
-    addStateBinding(10, 0.59, 275); // L3
-    addStateBinding(12, 0.8, 275); // L4
-    addStateBinding(7, 0.2, 50); // CG
-    addStateBinding(6, 0.2, 60); // RP1
-    addStateBinding(5, 0.2, 70); // RP2
-    addStateBinding(4, 0.2, 80); // BS
+    addStateBinding(8, 0, 216); // L1
+    addStateBinding(9, 0.35, 275); // L2
+    addStateBinding(10, 0.57, 275); // L3
+    addStateBinding(11, 0.91, 275); // L4
+    addStateBinding(7, 0, 153); // CG
+    addStateBinding(6, 0.25, 235); // RP1
+    addStateBinding(5, 0.5, 235); // RP2
+    addStateBinding(4, 0, 235); // BS
     
   }
 
