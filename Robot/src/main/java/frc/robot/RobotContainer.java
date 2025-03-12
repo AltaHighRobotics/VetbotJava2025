@@ -36,7 +36,7 @@ import frc.robot.subsystems.Swerve.SwerveDriveSubsystem;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  private final XboxController driverController;
+  private final Joystick driverController;
   private final Joystick stateController;
 
   private SwerveDriveSubsystem drive;
@@ -45,7 +45,7 @@ public class RobotContainer {
   private SuckNBlowSubsystem suckNBlowSubsystem;
 
   public RobotContainer() {
-    this.driverController = new XboxController(InputConstants.DRIVER_CONTROLLER_PORT);
+    this.driverController = new Joystick(InputConstants.DRIVER_CONTROLLER_PORT);
     this.stateController = new Joystick(1);
 
     this.drive = new SwerveDriveSubsystem();
@@ -96,14 +96,14 @@ public class RobotContainer {
     suckButton.whileTrue(new SuckCommand(this.suckNBlowSubsystem));
     blowButton.whileTrue(new BlowCommand(this.suckNBlowSubsystem));
 
-    // addStateBinding(8, 0.1, 10); // L1
-    // addStateBinding(9, 0.5, 50); // L2
-    // addStateBinding(10, 0.5, 50); // L3
-    // addStateBinding(12, 0.5, 50); // L4
-    // addStateBinding(7, 0.5, 50); // CG
-    // addStateBinding(6, 0.5, 50); // RP1
-    // addStateBinding(5, 0.5, 50); // RP2
-    // addStateBinding(4, 0.5, 50); // BS
+    addStateBinding(8, 0.3, 275); // L1
+    addStateBinding(9, 0.5, 275); // L2
+    addStateBinding(10, 0.59, 275); // L3
+    addStateBinding(12, 0.8, 275); // L4
+    addStateBinding(7, 0.2, 50); // CG
+    addStateBinding(6, 0.2, 60); // RP1
+    addStateBinding(5, 0.2, 70); // RP2
+    addStateBinding(4, 0.2, 80); // BS
     
   }
 
