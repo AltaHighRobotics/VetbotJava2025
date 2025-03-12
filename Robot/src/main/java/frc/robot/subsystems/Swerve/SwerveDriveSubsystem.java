@@ -33,6 +33,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   private AHRS gyro;
 
   private SwerveDriveKinematics kinematics;
+
+  public boolean FIELD_ORIENTED;
+
   
   /**
   * Constructs the drive, creates modules for each of the four motors.
@@ -41,6 +44,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   */
   public SwerveDriveSubsystem() {
     super();
+
+    FIELD_ORIENTED = true;
 
     final double P = SwerveDriveConstants.P;
     final double I = SwerveDriveConstants.I;
@@ -125,7 +130,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     // Tells the robot which way it needs to go
     ChassisSpeeds chassisSpeeds;
-    if (InputConstants.FIELD_ORIENTED) {
+
+
+    if (FIELD_ORIENTED) {
       // v is for Velocity
       final double vxMetersPerSecond = -xSpeed * speed;
       final double vyMetersPerSecond = ySpeed * speed;
@@ -143,12 +150,12 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     // Makes the wheel turn into an X pattern for defense
     if (axes0 == 3) {
-      /*// X Pattern
-      swerveModulesStates[0].angle = new Rotation2d(Math.PI / 4);
-      swerveModulesStates[1].angle = new Rotation2d(-Math.PI / 4);
-      swerveModulesStates[2].angle = new Rotation2d(-Math.PI / 4);
-      swerveModulesStates[3].angle = new Rotation2d(Math.PI / 4);
-      */
+      // X Pattern
+      // swerveModulesStates[0].angle = new Rotation2d(Math.PI / 4);
+      // swerveModulesStates[1].angle = new Rotation2d(-Math.PI / 4);
+      // swerveModulesStates[2].angle = new Rotation2d(-Math.PI / 4);
+      // swerveModulesStates[3].angle = new Rotation2d(Math.PI / 4);
+
       // O Pattern
       swerveModulesStates[0].angle = new Rotation2d(-Math.PI / 4);
       swerveModulesStates[1].angle = new Rotation2d(Math.PI / 4);
