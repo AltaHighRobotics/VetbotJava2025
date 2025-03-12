@@ -33,8 +33,6 @@ public class ClawSubsystem extends SubsystemBase{
     }
 
     public void moveToTarget() {
-        System.out.printf("Claw Deg: %.6f\n", targetRev * 360);
-
         this.targetRev = MathUtil.clamp(targetRev, 0.01, 1);
 
         // Adjust the PID to shuffleboard
