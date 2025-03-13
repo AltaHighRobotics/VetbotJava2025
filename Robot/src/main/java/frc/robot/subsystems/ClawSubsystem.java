@@ -2,6 +2,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClawConstants;
@@ -16,6 +20,10 @@ public class ClawSubsystem extends SubsystemBase{
     
     private double targetRev = 0;
 
+    private GenericEntry pEntry;
+    private GenericEntry iEntry;
+    private GenericEntry dEntry;
+
     public ClawSubsystem() {
         super();
 
@@ -26,10 +34,10 @@ public class ClawSubsystem extends SubsystemBase{
         final double D = ClawConstants.D;
         this.pidController = new PIDController(P, I, D);
 
-        SmartDashboard.putNumber("Claw P", P);
-        SmartDashboard.putNumber("Claw I", I);
-        SmartDashboard.putNumber("Claw D", D);
-        // this.motor.setNeutralMode(NeutralModeValue.Brake);
+        ShuffleboardTab tab = Shuffleboard.getTab("PID");
+        pEntry = tab.add("Claw P", P).getEntry();
+        iEntry = tab.add("Claw I", I).getEntry();
+        dEntry = tab.add("Claw D", D).getEntry();
     }
 
     public void moveToTarget() {
@@ -37,9 +45,9 @@ public class ClawSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("Claw Current Angle", -this.getRev() * 360);
 
         // Adjust the PID to shuffleboard
-        final double newP = SmartDashboard.getEntry("Claw P").getDouble(0);
-        final double newI = SmartDashboard.getEntry("Claw I").getDouble(0);
-        final double newD = SmartDashboard.getEntry("Claw D").getDouble(0);
+        final double newP = pEntry.getDouble(0);
+        final double newI = iEntry.getDouble(0);
+        final double newD = dEntry.getDouble(0);
         this.pidController.setPID(newP, newI, newD);
 
         final double motorRawOutput = this.pidController.calculate(this.getRev(), -this.targetRev);
