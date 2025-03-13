@@ -25,6 +25,7 @@ public class ArmSetPosition extends Command {
 
         this.clawTargetDegrees = clawTargetDegrees;
         this.elevatorTargetPercentage = elevatorTargetPercentage;
+        
     }
 
     @Override
