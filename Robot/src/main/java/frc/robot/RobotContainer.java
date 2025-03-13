@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -64,9 +65,9 @@ public class RobotContainer {
     this.drive.setDefaultCommand(new SwerveDriveCommand(drive, this.driverController));
   }
 
-  private void addStateBinding(int buttonID, double elevatorHeight, double clawDegrees) {
+  private void addStateBinding(String name, int buttonID, double elevatorHeight, double clawDegrees) {
     JoystickButton button = new JoystickButton(this.stateController, buttonID);
-    button.whileTrue(new ArmSetPosition(elevatorSubsystem, clawSubsystem, elevatorHeight, clawDegrees));
+    button.whileTrue(new ArmSetPosition(elevatorSubsystem, clawSubsystem, elevatorHeight, clawDegrees, name));
   }
 
   /**
@@ -100,14 +101,14 @@ public class RobotContainer {
     suckButton.whileTrue(new SuckCommand(this.suckNBlowSubsystem));
     blowButton.whileTrue(new BlowCommand(this.suckNBlowSubsystem));
 
-    addStateBinding(8, 0, 216); // L1
-    addStateBinding(9, 0.35, 275); // L2
-    addStateBinding(10, 0.57, 275); // L3
-    addStateBinding(11, 0.91, 275); // L4
-    addStateBinding(7, 0, 150); // CG
-    addStateBinding(6, 0.25, 235); // RP1
-    addStateBinding(5, 0.5, 235); // RP2
-    addStateBinding(4, 0, 235); // BS
+    addStateBinding("L1", 8, 0, 216); // L1
+    addStateBinding("L2", 9, 0.35, 275); // L2
+    addStateBinding("L3", 10, 0.57, 275); // L3
+    addStateBinding("L4", 11, 0.91, 275); // L4
+    addStateBinding("CG", 7, 0, 150); // CG
+    addStateBinding("RP1", 6, 0.25, 235); // RP1
+    addStateBinding("RP2", 5, 0.5, 235); // RP2
+    addStateBinding("BS", 4, 0, 235); // BS
 
 
     JoystickButton makeFIeldOriented = new JoystickButton(driverController, 3);
