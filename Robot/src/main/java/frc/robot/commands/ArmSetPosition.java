@@ -32,15 +32,15 @@ public class ArmSetPosition extends Command {
         this.elevatorTargetPercentage = elevatorTargetPercentage;
         
         String fullNameId = String.format("%s state", name);
-        SmartDashboard.putNumber(fullNameId + " Elevator", this.elevatorTargetPercentage);
-        SmartDashboard.putNumber(fullNameId + " Claw", this.clawTargetDegrees);
+        // SmartDashboard.putNumber(fullNameId + " Elevator", this.elevatorTargetPercentage);
+        // SmartDashboard.putNumber(fullNameId + " Claw", this.clawTargetDegrees);
     }
 
     @Override
     public void execute() {
         String fullNameId = String.format("%s state", name);
-        this.elevatorTargetPercentage = SmartDashboard.getNumber(fullNameId + " Elevator", this.elevatorTargetPercentage);
-        this.clawTargetDegrees = SmartDashboard.getNumber(fullNameId + " Claw", this.clawTargetDegrees);
+        // this.elevatorTargetPercentage = SmartDashboard.getNumber(fullNameId + " Elevator", this.elevatorTargetPercentage);
+        // this.clawTargetDegrees = SmartDashboard.getNumber(fullNameId + " Claw", this.clawTargetDegrees);
 
         this.clawSubsystem.setRev(clawTargetDegrees/ 360); // May not be working
         this.elevatorSubsystem.setHeight(elevatorTargetPercentage);

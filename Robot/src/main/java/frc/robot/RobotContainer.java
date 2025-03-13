@@ -5,8 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -28,7 +26,6 @@ import frc.robot.commands.elevator.ElevatorUp;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.SuckNBlowSubsystem;
-import frc.robot.subsystems.SuckNBlowSubsystem.OralType;
 import frc.robot.subsystems.Swerve.SwerveDriveSubsystem;
 
 /**
@@ -110,6 +107,8 @@ public class RobotContainer {
     addStateBinding("RP2", 5, 0.5, 235); // RP2
     addStateBinding("BS", 4, 0, 235); // BS
 
+    JoystickButton stoweButton = new JoystickButton(this.driverController, 4);
+    stoweButton.whileTrue(new ArmSetPosition(elevatorSubsystem, clawSubsystem, 0, 20, "stowe"));
 
     JoystickButton makeFIeldOriented = new JoystickButton(driverController, 3);
     makeFIeldOriented.whileTrue(new SwitchToRobotOriented(drive));
