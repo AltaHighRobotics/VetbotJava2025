@@ -51,7 +51,7 @@ public final class Constants {
 
     public static final double P = 50;
     public static final double I = 0;
-    public static final double D = 0;
+    public static final double D = 0.001;
   }
   
   public static class ElevatorConstants {
@@ -75,7 +75,7 @@ public final class Constants {
 
   public static class SuckNBlowConstants {
     public static final int SPARK_MAX_ID = 42;
-    public static final double MOTOR_SUCK_SPEED = 0.4;
+    public static final double MOTOR_SUCK_SPEED = 0.6;
     public static final double MOTOR_BLOW_SPEED = 0.8;
   }
 
@@ -92,5 +92,6 @@ public final class Constants {
   
   public static class AutonomousConstants {
     public static final long milisecondsAlive = 1500;
+    public static final double driveSpeed = .5;
   }
 }

@@ -129,7 +129,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     }
 
     // Tells the robot which way it needs to go
-    ChassisSpeeds chassisSpeeds;
+    ChassisSpeeds chassisSpeeds; 
 
 
     if (FIELD_ORIENTED) {
@@ -141,8 +141,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
       chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(vxMetersPerSecond, vyMetersPerSecond, 
                                                             omegaRadiansPerSecond, robotAngle);
-    } else { // Not field oriented
-      chassisSpeeds = new ChassisSpeeds(-xSpeed/2, ySpeed/2, -rot/2);
+    } else { // Robot oriented
+      chassisSpeeds = new ChassisSpeeds(xSpeed/2, -ySpeed/2, -rot/2);
     }
 
     // Uses kinematics to calculate the module states from where we tell it to go
