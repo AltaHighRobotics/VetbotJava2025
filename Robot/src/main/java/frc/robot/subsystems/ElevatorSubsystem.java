@@ -7,6 +7,9 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
@@ -19,6 +22,10 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     private double targetHeightPercentage = 0.0;
 
+    private GenericEntry pEntry;
+    private GenericEntry iEntry;
+    private GenericEntry dEntry;
+
     public ElevatorSubsystem() {
         super();
         this.motorController1 = new SparkFlex(ElevatorConstants.TURN_1_ID, MotorType.kBrushless);
@@ -29,9 +36,10 @@ public class ElevatorSubsystem extends SubsystemBase{
         final double D = ElevatorConstants.D;
         this.pidController = new PIDController(P, I, D);
 
-        SmartDashboard.putNumber("Elevator P", P);
-        SmartDashboard.putNumber("Elevator I", I);
-        SmartDashboard.putNumber("Elevator D", D);
+        ShuffleboardTab tab = Shuffleboard.getTab("PID");
+        pEntry = tab.add("Elevator P", P).getEntry();
+        iEntry = tab.add("Elevator I", I).getEntry();
+        dEntry = tab.add("Elevator D", D).getEntry();
     }
 
     /**
@@ -49,9 +57,9 @@ public class ElevatorSubsystem extends SubsystemBase{
         final double currentPositionRevolutions1 = this.getHeight(this.motorController1.getEncoder());
         final double currentPositionRevolutions2 = this.getHeight(this.motorController2.getEncoder());
 
-        final double newP = SmartDashboard.getEntry("Elevator P").getDouble(0);
-        final double newI = SmartDashboard.getEntry("Elevator I").getDouble(0);
-        final double newD = SmartDashboard.getEntry("Elevator D").getDouble(0);
+        final double newP = pEntry.getDouble(0);
+        final double newI = iEntry.getDouble(0);
+        final double newD = dEntry.getDouble(0);
         this.pidController.setPID(newP, newI, newD);
 
         double motorOutput1 = this.pidController.calculate(currentPositionRevolutions1, targetPositionRevolutions);
