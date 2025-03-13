@@ -43,6 +43,7 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     public void moveToTargetHeight() { // Meant to be called each tick
         targetHeightPercentage = MathUtil.clamp(targetHeightPercentage, 0, 1);
+        SmartDashboard.putNumber("Elevator Current Height", this.getHeightAsPercentage(motorController1.getEncoder()));
         
         final double targetPositionRevolutions = targetHeightPercentage * ElevatorConstants.TOP_MAG;
         final double currentPositionRevolutions1 = this.getHeight(this.motorController1.getEncoder());
