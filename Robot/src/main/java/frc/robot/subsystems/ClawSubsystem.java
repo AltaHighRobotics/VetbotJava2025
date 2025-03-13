@@ -34,7 +34,7 @@ public class ClawSubsystem extends SubsystemBase{
 
     public void moveToTarget() {
         this.targetRev = MathUtil.clamp(targetRev, 0.01, 1);
-        SmartDashboard.putNumber("Claw Current Angle", this.getRev() * 360);
+        SmartDashboard.putNumber("Claw Current Angle", -this.getRev() * 360);
 
         // Adjust the PID to shuffleboard
         final double newP = SmartDashboard.getEntry("Claw P").getDouble(0);
