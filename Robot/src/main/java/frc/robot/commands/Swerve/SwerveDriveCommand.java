@@ -32,8 +32,8 @@ public class SwerveDriveCommand extends Command {
     public void execute() {
       final double forwardSpeed = -this.driverController.getX();
       final double strafeSpeed = this.driverController.getY();
-      final double rotationSpeed = this.driverController.getZ() / 2;
-      final double speedScaling = MathUtil.clamp((this.driverController.getRawAxis(3) + 1.0) / 2.0, 0.3,1);
+      final double rotationSpeed = this.driverController.getZ();
+      final double speedScaling = MathUtil.clamp((-this.driverController.getRawAxis(3) + 1.0) / 2.0, 0.3,1);
     
       this.driveSubsystem.drive(forwardSpeed, strafeSpeed, rotationSpeed, speedScaling);
     }
