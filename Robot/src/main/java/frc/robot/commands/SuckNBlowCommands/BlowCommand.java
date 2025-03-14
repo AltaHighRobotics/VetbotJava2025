@@ -28,12 +28,17 @@ public class BlowCommand extends Command {
      * Blows for a few seconds to shoot the ball and then stops the motor
      */
     @Override
-    public void execute() {
-      this.subsystem.set(OralType.BLOW);
+    public void initialize() {
+      switch (this.subsystem.oralType) {
+        case BLOW:
+          this.subsystem.set(OralType.STOP);
+          break;
+        default:
+          this.subsystem.set(OralType.BLOW);
+      }
     }
 
     @Override
     public void end(boolean interrupted) {
-      this.subsystem.set(OralType.STOP);
     }
 }
