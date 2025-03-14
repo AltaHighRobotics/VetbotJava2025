@@ -1,11 +1,6 @@
 package frc.robot.commands.SuckNBlowCommands;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.SuckNBlowConstants;
 import frc.robot.subsystems.SuckNBlowSubsystem;
 import frc.robot.subsystems.SuckNBlowSubsystem.OralType;
 
@@ -28,17 +23,12 @@ public class BlowCommand extends Command {
      * Blows for a few seconds to shoot the ball and then stops the motor
      */
     @Override
-    public void initialize() {
-      switch (this.subsystem.oralType) {
-        case BLOW:
-          this.subsystem.set(OralType.STOP);
-          break;
-        default:
-          this.subsystem.set(OralType.BLOW);
-      }
+    public void execute() {
+      this.subsystem.set(OralType.BLOW);
     }
 
     @Override
     public void end(boolean interrupted) {
+      this.subsystem.set(OralType.STOP);
     }
 }

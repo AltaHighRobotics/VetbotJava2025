@@ -111,7 +111,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   * @param speed Scales the speed, if set to 0 the robot won't move. 0 to 1
   */
   public void drive(double ySpeed, double xSpeed, double rot, double speed) {
-    Shuffleboard.getTab("main").addBoolean("FIELD (FALSE IS ROBOT)", () -> this.FIELD_ORIENTED);
+    // Shuffleboard.getTab("main").addDouble("FIELD (FALSE IS ROBOT)", (double)(int)this.FIELD_ORIENTED);
 
     int axes0 = 0;
 
