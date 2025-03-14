@@ -99,8 +99,8 @@ public class RobotContainer {
     blowButton.whileTrue(new BlowCommand(this.suckNBlowSubsystem));
 
     addStateBinding("L1", 8, 0, 216); // L1
-    addStateBinding("L2", 9, 0.35, 275); // L2
-    addStateBinding("L3", 10, 0.57, 275); // L3
+    addStateBinding("L2", 9, 0.299, 280); // L2
+    addStateBinding("L3", 10, 0.536, 280); // L3
     addStateBinding("L4", 11, 0.91, 275); // L4
     addStateBinding("CG", 7, 0, 150); // CG
     addStateBinding("RP1", 6, 0.25, 235); // RP1
