@@ -16,6 +16,7 @@ import frc.robot.commands.SuckNBlowCommands.SuckCommand;
 import frc.robot.commands.Swerve.ResetOrientationCommand;
 import frc.robot.commands.Swerve.SwerveDriveCommand;
 import frc.robot.commands.Swerve.SwitchToFieldOriented;
+import frc.robot.commands.Swerve.ToggleRobotOriented;
 import frc.robot.commands.Swerve.SwitchToRobotOriented;
 import frc.robot.commands.claw.ClawBackward;
 import frc.robot.commands.claw.ClawForward;
@@ -111,8 +112,9 @@ public class RobotContainer {
     stoweButton.whileTrue(new ArmSetPosition(elevatorSubsystem, clawSubsystem, 0, 20, "stowe"));
 
     JoystickButton makeFIeldOriented = new JoystickButton(driverController, 3);
-    makeFIeldOriented.whileTrue(new SwitchToRobotOriented(drive));
-    makeFIeldOriented.whileFalse(new SwitchToFieldOriented(drive));
+    // makeFIeldOriented.whileTrue(new SwitchToRobotOriented(drive));
+    // makeFIeldOriented.whileFalse(new SwitchToFieldOriented(drive));
+    makeFIeldOriented.whileTrue(new ToggleRobotOriented(drive));
   }
 
   /**

@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.Swerve;
 
+import java.util.function.BooleanSupplier;
+
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 
@@ -12,6 +14,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.InputConstants;
 import frc.robot.Constants.SwerveDriveConstants;
@@ -108,6 +111,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   * @param speed Scales the speed, if set to 0 the robot won't move. 0 to 1
   */
   public void drive(double ySpeed, double xSpeed, double rot, double speed) {
+    Shuffleboard.getTab("main").addBoolean("FIELD (FALSE IS ROBOT)", () -> this.FIELD_ORIENTED);
+
     int axes0 = 0;
 
     // Checks if we are actually telling the robot to move or rotate
