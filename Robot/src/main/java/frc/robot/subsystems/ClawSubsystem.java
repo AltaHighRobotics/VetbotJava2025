@@ -10,67 +10,61 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
-public class ClawSubsystem extends SubsystemBase{
-    private SparkMax motor;
-    private PIDController pidController;
+public final class ClawSubsystem extends SubsystemBase{
+    private static SparkMax motor = new SparkMax(ClawConstants.TURN_ID, MotorType.kBrushless);
+    private static PIDController pidController = new PIDController(
+        ClawConstants.P,
+        ClawConstants.I,
+        ClawConstants.D
+    );
     
-    private double targetRev = 0;
+    private static double targetRev = 0;
 
-    public ClawSubsystem() {
-        super();
-
-        this.motor = new SparkMax(ClawConstants.TURN_ID, MotorType.kBrushless);
-
-        final double P = ClawConstants.P;
-        final double I = ClawConstants.I;
-        final double D = ClawConstants.D;
-        this.pidController = new PIDController(P, I, D);
-
-        SmartDashboard.putNumber("Claw P", P);
-        SmartDashboard.putNumber("Claw I", I);
-        SmartDashboard.putNumber("Claw D", D);
-        // this.motor.setNeutralMode(NeutralModeValue.Brake);
+    private ClawSubsystem() {
+        // SmartDashboard.putNumber("Claw P", P);
+        // SmartDashboard.putNumber("Claw I", I);
+        // SmartDashboard.putNumber("Claw D", D);
     }
 
-    public void moveToTarget() {
-        this.targetRev = MathUtil.clamp(targetRev, 0.01, 1);
-        SmartDashboard.putNumber("Claw Current Angle", -this.getRev() * 360);
+    public static void moveToTarget() {
+        ClawSubsystem.targetRev = MathUtil.clamp(targetRev, 0.01, 1);
+        SmartDashboard.putNumber("Claw Current Angle", -ClawSubsystem.getRev() * 360);
 
         // Adjust the PID to shuffleboard
         final double newP = SmartDashboard.getEntry("Claw P").getDouble(0);
         final double newI = SmartDashboard.getEntry("Claw I").getDouble(0);
         final double newD = SmartDashboard.getEntry("Claw D").getDouble(0);
-        this.pidController.setPID(newP, newI, newD);
+        ClawSubsystem.pidController.setPID(newP, newI, newD);
 
-        final double motorRawOutput = this.pidController.calculate(this.getRev(), -this.targetRev);
+        final double motorRawOutput = ClawSubsystem.pidController.calculate(ClawSubsystem.getRev(), -ClawSubsystem.targetRev);
         final double limitedMotorOutput = MathUtil.clamp(motorRawOutput, -ClawConstants.MOTOR_MAX_OUTPUT, ClawConstants.MOTOR_MAX_OUTPUT);
         motor.setVoltage(limitedMotorOutput);
     }
 
-    public void setRev(double targetRev) {
-        this.targetRev = targetRev;
+    public static void setRev(double targetRev) {
+        ClawSubsystem.targetRev = targetRev;
     }
 
-    public double getRawRev() {
-        return this.motor.getEncoder().getPosition();
+    public static double getRawRev() {
+        return ClawSubsystem.motor.getEncoder().getPosition();
     }
 
-    public double getRev() {
+    public static double getRev() {
         return getRawRev() / ClawConstants.REV_FOR_FULL_ROTATION;
     }
 
-    public void forward() {
-        setRev(this.targetRev + 0.005);
+    public static void forward() {
+        setRev(ClawSubsystem.targetRev + 0.005);
     }
 
-    public void backward() {
-        setRev(this.targetRev - 0.005);
+    public static void backward() {
+        setRev(ClawSubsystem.targetRev - 0.005);
     }
 
-    public void stop() {
+    public static void stop() {
         System.out.println("Claw Rotation Stoped");
-        setRev(this.getRev());
-        this.motor.set(0);
+        setRev(ClawSubsystem.getRev());
+        ClawSubsystem.motor.set(0);
     }
 }
 

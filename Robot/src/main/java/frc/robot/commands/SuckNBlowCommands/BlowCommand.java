@@ -11,34 +11,14 @@ import frc.robot.subsystems.SuckNBlowSubsystem.OralType;
 
 /** An example command that uses an example subsystem. */
 public class BlowCommand extends Command {
-    @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-    private final SuckNBlowSubsystem subsystem;
-
-    /**
-     * Creates a new ExampleCommand.
-     *
-     * @param subsystem The subsystem used by this command.
-     */
-    public BlowCommand(SuckNBlowSubsystem subsystem) {
-      this.subsystem = subsystem;
-      addRequirements(subsystem);
-    }
-
-    /**
-     * Blows for a few seconds to shoot the ball and then stops the motor
-     */
     @Override
     public void initialize() {
-      switch (this.subsystem.oralType) {
+      switch (SuckNBlowSubsystem.oralType) {
         case BLOW:
-          this.subsystem.set(OralType.STOP);
+          SuckNBlowSubsystem.set(OralType.STOP);
           break;
         default:
-          this.subsystem.set(OralType.BLOW);
+          SuckNBlowSubsystem.set(OralType.BLOW);
       }
-    }
-
-    @Override
-    public void end(boolean interrupted) {
     }
 }

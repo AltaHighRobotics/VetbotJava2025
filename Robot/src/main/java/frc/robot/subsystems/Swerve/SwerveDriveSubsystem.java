@@ -1,6 +1,6 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+// the WPILib BSD license file in the root directory of SwerveDriveSubsystem.project.
 
 package frc.robot.subsystems.Swerve;
 
@@ -20,88 +20,51 @@ import frc.robot.Constants.InputConstants;
 import frc.robot.Constants.SwerveDriveConstants;
 
 
-public class SwerveDriveSubsystem extends SubsystemBase {
+public final class SwerveDriveSubsystem extends SubsystemBase {
 
-  private Translation2d frontLeftLocation;
-  private Translation2d frontRightLocation;
-  private Translation2d backLeftLocation;
-  private Translation2d backRightLocation;
+  private static Translation2d frontLeftLocation  = new Translation2d( SwerveDriveConstants.SWERVE_MOD_CENTER_TO_CENTER /2.0,  SwerveDriveConstants.SWERVE_MOD_CENTER_TO_CENTER /2.0);
+  private static Translation2d frontRightLocation = new Translation2d( SwerveDriveConstants.SWERVE_MOD_CENTER_TO_CENTER /2.0, -SwerveDriveConstants.SWERVE_MOD_CENTER_TO_CENTER /2.0);
+  private static Translation2d backLeftLocation   = new Translation2d(-SwerveDriveConstants.SWERVE_MOD_CENTER_TO_CENTER /2.0,  SwerveDriveConstants.SWERVE_MOD_CENTER_TO_CENTER /2.0);
+  private static Translation2d backRightLocation  = new Translation2d(-SwerveDriveConstants.SWERVE_MOD_CENTER_TO_CENTER /2.0, -SwerveDriveConstants.SWERVE_MOD_CENTER_TO_CENTER /2.0);
 
-  private SwerveModuleSubsystem frontLeftModule;
-  private SwerveModuleSubsystem frontRightModule;
-  private SwerveModuleSubsystem backLeftModule;
-  private SwerveModuleSubsystem backRightModule;
+  private static SwerveModuleSubsystem frontLeftModule = new SwerveModuleSubsystem(
+    SwerveDriveConstants.FRONT_LEFT_DRIVE_ID, 
+    SwerveDriveConstants.FRONT_LEFT_TURN_ID, 
+    SwerveDriveConstants.P, SwerveDriveConstants.I, SwerveDriveConstants.D
+  );
 
-  private boolean turnLock;
-  private AHRS gyro;
+  private static SwerveModuleSubsystem frontRightModule = new SwerveModuleSubsystem(
+    SwerveDriveConstants.FRONT_RIGHT_DRIVE_ID, 
+    SwerveDriveConstants.FRONT_RIGHT_TURN_ID, 
+    SwerveDriveConstants.P, SwerveDriveConstants.I, SwerveDriveConstants.D
+  );
 
-  private SwerveDriveKinematics kinematics;
+  private static SwerveModuleSubsystem backLeftModule = new SwerveModuleSubsystem(
+    SwerveDriveConstants.BACK_LEFT_DRIVE_ID, 
+    SwerveDriveConstants.BACK_LEFT_TURN_ID, 
+    SwerveDriveConstants.P, SwerveDriveConstants.I, SwerveDriveConstants.D
+  );
 
-  public boolean FIELD_ORIENTED;
+  private static SwerveModuleSubsystem backRightModule = new SwerveModuleSubsystem(
+    SwerveDriveConstants.BACK_RIGHT_DRIVE_ID, 
+    SwerveDriveConstants.BACK_RIGHT_TURN_ID, 
+    SwerveDriveConstants.P, SwerveDriveConstants.I, SwerveDriveConstants.D
+  );
 
-  
-  /**
-  * Constructs the drive, creates modules for each of the four motors.
-  * To create kinematics we need to give it locations which are created from the disance between the motors.
-  * Also Initalized the gyro.
-  */
-  public SwerveDriveSubsystem() {
-    super();
+  private static boolean turnLock = false;
+  private static AHRS gyro = new AHRS(NavXComType.kMXP_SPI);
 
-    FIELD_ORIENTED = true;
+  private static SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
+    SwerveDriveSubsystem.frontLeftLocation,
+    SwerveDriveSubsystem.frontRightLocation,
+    SwerveDriveSubsystem.backLeftLocation,
+    SwerveDriveSubsystem.backRightLocation
+  );
 
-    final double P = SwerveDriveConstants.P;
-    final double I = SwerveDriveConstants.I;
-    final double D = SwerveDriveConstants.D;
-    final double ctc2 = SwerveDriveConstants.SWERVE_MOD_CENTER_TO_CENTER / 2.0; // Half the width of the side of the robot
 
-    // Uses the distance between the motors to get Translation2d posisions from the center of the robot
-    this.frontLeftLocation = new Translation2d(ctc2, ctc2);
-    this.frontRightLocation = new Translation2d(ctc2, -ctc2);
-    this.backLeftLocation = new Translation2d(-ctc2, ctc2);
-    this.backRightLocation = new Translation2d(-ctc2, -ctc2);
+  public static boolean FIELD_ORIENTED = true;
 
-    // Create our modules
-    this.frontLeftModule = new SwerveModuleSubsystem(
-      SwerveDriveConstants.FRONT_LEFT_DRIVE_ID, 
-      SwerveDriveConstants.FRONT_LEFT_TURN_ID, 
-      P, I, D
-    );
-
-    this.frontRightModule = new SwerveModuleSubsystem(
-      SwerveDriveConstants.FRONT_RIGHT_DRIVE_ID, 
-      SwerveDriveConstants.FRONT_RIGHT_TURN_ID, 
-      P, I, D
-    );
-
-    this.backLeftModule = new SwerveModuleSubsystem(
-      SwerveDriveConstants.BACK_LEFT_DRIVE_ID, 
-      SwerveDriveConstants.BACK_LEFT_TURN_ID, 
-      P, I, D
-    );
-
-    this.backRightModule = new SwerveModuleSubsystem(
-      SwerveDriveConstants.BACK_RIGHT_DRIVE_ID, 
-      SwerveDriveConstants.BACK_RIGHT_TURN_ID, 
-      P, I, D
-    );
-
-    this.turnLock = false;
-
-    this.gyro = new AHRS(NavXComType.kMXP_SPI);
-
-    // Kinematics calculates our movement from x, y, and rot
-    this.kinematics = new SwerveDriveKinematics(
-      this.frontLeftLocation,
-      this.frontRightLocation,
-      this.backLeftLocation,
-      this.backRightLocation
-    );
-
-    this.gyro.reset();
-
-    this.setMaxOutput(SwerveDriveConstants.SWERVE_MAX_OUTPUT);
-  }
+  private SwerveDriveSubsystem() {}
 
   /**
   * All axis are based around the gyro, which can be reset at any time.
@@ -110,8 +73,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   * @param rot The angular rate of the robot. Radians I think
   * @param speed Scales the speed, if set to 0 the robot won't move. 0 to 1
   */
-  public void drive(double ySpeed, double xSpeed, double rot, double speed) {
-    Shuffleboard.getTab("main").addBoolean("FIELD (FALSE IS ROBOT)", () -> this.FIELD_ORIENTED);
+  public static void drive(double ySpeed, double xSpeed, double rot, double speed) {
+    SwerveDriveSubsystem.setMaxOutput(SwerveDriveConstants.SWERVE_MAX_OUTPUT);
+    Shuffleboard.getTab("main").addBoolean("FIELD (FALSE IS ROBOT)", () -> SwerveDriveSubsystem.FIELD_ORIENTED);
 
     int axes0 = 0;
 
@@ -126,7 +90,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       axes0 ++;
     }
 
-    if (Math.abs(rot) < InputConstants.TURN_DEADBAND || this.turnLock) {
+    if (Math.abs(rot) < InputConstants.TURN_DEADBAND || SwerveDriveSubsystem.turnLock) {
       rot = 0;
       axes0 ++;
     } else {
@@ -142,7 +106,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       final double vxMetersPerSecond = -xSpeed * speed;
       final double vyMetersPerSecond = ySpeed * speed;
       final double omegaRadiansPerSecond = -rot * speed * Math.PI;
-      Rotation2d robotAngle = this.gyro.getRotation2d();
+      Rotation2d robotAngle = SwerveDriveSubsystem.gyro.getRotation2d();
 
       chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(vxMetersPerSecond, vyMetersPerSecond, 
                                                             omegaRadiansPerSecond, robotAngle);
@@ -151,7 +115,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     }
 
     // Uses kinematics to calculate the module states from where we tell it to go
-    SwerveModuleState[] swerveModulesStates = this.kinematics.toSwerveModuleStates(chassisSpeeds);
+    SwerveModuleState[] swerveModulesStates = SwerveDriveSubsystem.kinematics.toSwerveModuleStates(chassisSpeeds);
 
     // Makes the wheel turn into an X pattern for defense
     if (axes0 == 3) {
@@ -169,36 +133,36 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     }
 
     // Uses our method to set the rotation and speed of the modules from the calculated values
-    this.frontLeftModule.setDesiredState(swerveModulesStates[0]);
-    this.frontRightModule.setDesiredState(swerveModulesStates[1]);
-    this.backLeftModule.setDesiredState(swerveModulesStates[2]);
-    this.backRightModule.setDesiredState(swerveModulesStates[3]);
+    SwerveDriveSubsystem.frontLeftModule.setDesiredState(swerveModulesStates[0]);
+    SwerveDriveSubsystem.frontRightModule.setDesiredState(swerveModulesStates[1]);
+    SwerveDriveSubsystem.backLeftModule.setDesiredState(swerveModulesStates[2]);
+    SwerveDriveSubsystem.backRightModule.setDesiredState(swerveModulesStates[3]);
   }
 
   /**
   * Sets the max output for all of the modules
   * @param maxOutput 0 - 1
   */
-  public void setMaxOutput(double maxOutput) {
-    this.frontLeftModule.setMaxOut(maxOutput);
-    this.frontRightModule.setMaxOut(maxOutput);
-    this.backLeftModule.setMaxOut(maxOutput);
-    this.backRightModule.setMaxOut(maxOutput);
+  public static void setMaxOutput(double maxOutput) {
+    SwerveDriveSubsystem.frontLeftModule.setMaxOut(maxOutput);
+    SwerveDriveSubsystem.frontRightModule.setMaxOut(maxOutput);
+    SwerveDriveSubsystem.backLeftModule.setMaxOut(maxOutput);
+    SwerveDriveSubsystem.backRightModule.setMaxOut(maxOutput);
   }
 
   /**
   * Resets the gyro, which resets the orientation.
   * The x and y axis will be changed to fit how the robot is turned when called.
   */
-  public void resetOrientation() {
-    this.gyro.zeroYaw();
+  public static void resetOrientation() {
+    SwerveDriveSubsystem.gyro.zeroYaw();
   }
 
-  public void lockTurn() {
-    this.turnLock = true;
+  public static void lockTurn() {
+    SwerveDriveSubsystem.turnLock = true;
   }
 
-  public void unlockTurn() {
-    this.turnLock = false;
+  public static void unlockTurn() {
+    SwerveDriveSubsystem.turnLock = false;
   }
 }

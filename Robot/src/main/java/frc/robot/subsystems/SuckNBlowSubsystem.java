@@ -6,37 +6,33 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SuckNBlowConstants;
 
-public class SuckNBlowSubsystem extends SubsystemBase{
+public final class SuckNBlowSubsystem extends SubsystemBase{
     public enum OralType {
         SUCK,
         BLOW,
         STOP 
     }
 
-    private SparkMax motor;
-    public OralType oralType;
+    private static SparkMax motor = new SparkMax(SuckNBlowConstants.SPARK_MAX_ID, MotorType.kBrushless);
+    public static OralType oralType = OralType.STOP;
 
-    public SuckNBlowSubsystem() {
-        super();
-        this.motor = new SparkMax(SuckNBlowConstants.SPARK_MAX_ID, MotorType.kBrushless);
-        this.oralType = OralType.STOP;
-    }
+    private SuckNBlowSubsystem() {}
 
     /**
      * Sets the state of the motors
      * @param oralType The direction the motors will go, positive, negitive, or stopped
      */
-    public void set(OralType oralType) {
-        this.oralType = oralType;
+    public static void set(OralType oralType) {
+        SuckNBlowSubsystem.oralType = oralType;
         switch (oralType) {
             case SUCK:
-                this.motor.set(-SuckNBlowConstants.MOTOR_SUCK_SPEED);
+                SuckNBlowSubsystem.motor.set(-SuckNBlowConstants.MOTOR_SUCK_SPEED);
                 break;
             case BLOW:
-                this.motor.set(SuckNBlowConstants.MOTOR_BLOW_SPEED);
+                SuckNBlowSubsystem.motor.set(SuckNBlowConstants.MOTOR_BLOW_SPEED);
                 break;
             case STOP:
-                this.motor.set(0);
+                SuckNBlowSubsystem.motor.set(0);
                 break;
         }
     }

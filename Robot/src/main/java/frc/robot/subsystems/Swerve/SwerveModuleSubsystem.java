@@ -20,7 +20,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 
 
-public class SwerveModuleSubsystem extends SubsystemBase {
+public class SwerveModuleSubsystem {
   
   private TalonFX drive;
   private SparkMax turn;

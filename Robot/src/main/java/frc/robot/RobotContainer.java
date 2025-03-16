@@ -15,9 +15,9 @@ import frc.robot.commands.SuckNBlowCommands.BlowCommand;
 import frc.robot.commands.SuckNBlowCommands.SuckCommand;
 import frc.robot.commands.Swerve.ResetOrientationCommand;
 import frc.robot.commands.Swerve.SwerveDriveCommand;
-import frc.robot.commands.Swerve.SwitchToFieldOriented;
-import frc.robot.commands.Swerve.ToggleRobotOriented;
-import frc.robot.commands.Swerve.SwitchToRobotOriented;
+// import frc.robot.commands.Swerve.SwitchToFieldOriented;
+// import frc.robot.commands.Swerve.ToggleRobotOriented;
+// import frc.robot.commands.Swerve.SwitchToRobotOriented;
 import frc.robot.commands.claw.ClawBackward;
 import frc.robot.commands.claw.ClawForward;
 import frc.robot.commands.claw.ClawGoToTarget;
@@ -39,33 +39,20 @@ import frc.robot.subsystems.Swerve.SwerveDriveSubsystem;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  private final Joystick driverController;
-  private final Joystick stateController;
-
-  private SwerveDriveSubsystem drive;
-  private ElevatorSubsystem elevatorSubsystem;
-  private ClawSubsystem clawSubsystem;
-  private SuckNBlowSubsystem suckNBlowSubsystem;
-
+  public static final Joystick driverController = new Joystick(InputConstants.DRIVER_CONTROLLER_PORT);
+  public static final Joystick stateController = new Joystick(1);
+ 
   public RobotContainer() {
-    this.driverController = new Joystick(InputConstants.DRIVER_CONTROLLER_PORT);
-    this.stateController = new Joystick(1);
-
-    this.drive = new SwerveDriveSubsystem();
-    this.elevatorSubsystem  = new ElevatorSubsystem();
-    this.clawSubsystem = new ClawSubsystem();
-    this.suckNBlowSubsystem = new SuckNBlowSubsystem();
-
     configureBindings();
 
-    this.clawSubsystem.setDefaultCommand(new ClawGoToTarget(clawSubsystem));
-    this.elevatorSubsystem.setDefaultCommand(new ElevatorMoveToTarget(this.elevatorSubsystem));
-    this.drive.setDefaultCommand(new SwerveDriveCommand(drive, this.driverController));
+    ClawSubsystem.setDefaultCommand(new ClawGoToTarget());
+    ElevatorSubsystem.setDefaultCommand(new ElevatorMoveToTarget(this.elevatorSubsystem));
+    SwerveDriveSubsystem.setDefaultCommand(new SwerveDriveCommand());
   }
 
   private void addStateBinding(String name, int buttonID, double elevatorHeight, double clawDegrees) {
     JoystickButton button = new JoystickButton(this.stateController, buttonID);
-    button.whileTrue(new ArmSetPosition(elevatorSubsystem, clawSubsystem, elevatorHeight, clawDegrees, name));
+    button.whileTrue(new ArmSetPosition(elevatorHeight, clawDegrees, name));
   }
 
   /**
@@ -114,7 +101,7 @@ public class RobotContainer {
     JoystickButton makeFIeldOriented = new JoystickButton(driverController, 3);
     // makeFIeldOriented.whileTrue(new SwitchToRobotOriented(drive));
     // makeFIeldOriented.whileFalse(new SwitchToFieldOriented(drive));
-    makeFIeldOriented.whileTrue(new ToggleRobotOriented(drive));
+    // makeFIeldOriented.whileTrue(new ToggleRobotOriented(drive));
   }
 
   /**
