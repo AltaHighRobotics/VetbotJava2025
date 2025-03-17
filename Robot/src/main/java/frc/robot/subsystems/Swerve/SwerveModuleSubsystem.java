@@ -87,7 +87,7 @@ public class SwerveModuleSubsystem extends SubsystemBase {
   *
   * @param desiredState The desired state of the module from kinematics
   */
-  public void setDesiredState(final SwerveModuleState desiredState) {
+  public void setDesiredState(final SwerveModuleState desiredState, boolean stationMode) {
     final double newP = SmartDashboard.getEntry("Swerve P").getDouble(0);
     final double newI = SmartDashboard.getEntry("Swerve I").getDouble(0);
     final double newD = SmartDashboard.getEntry("Swerve D").getDouble(0);
@@ -114,6 +114,14 @@ public class SwerveModuleSubsystem extends SubsystemBase {
 
     // Actually sets the speed of the motors and how much they need to rotate
     this.drive.set(Math.max(-this.maxOut, Math.min(driveOuput, this.maxOut)));
+    if (stationMode) {
+      if (turnOutput > 0.3) {
+        this.drive.set(0);
+      } else {
+        this.drive.set(Math.abs(driveOuput) / driveOuput * 0.05);
+      }
+    }
+
     this.turn.setVoltage(turnOutput);
   }
 }

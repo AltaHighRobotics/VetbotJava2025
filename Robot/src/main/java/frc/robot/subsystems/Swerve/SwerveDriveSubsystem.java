@@ -147,7 +147,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(vxMetersPerSecond, vyMetersPerSecond, 
                                                             omegaRadiansPerSecond, robotAngle);
     } else { // Robot oriented
-      chassisSpeeds = new ChassisSpeeds(xSpeed/2, -ySpeed/2, -rot/2);
+      chassisSpeeds = new ChassisSpeeds(0, -ySpeed/2, 0);
     }
 
     // Uses kinematics to calculate the module states from where we tell it to go
@@ -162,17 +162,19 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       // swerveModulesStates[3].angle = new Rotation2d(Math.PI / 4);
 
       // O Pattern
-      swerveModulesStates[0].angle = new Rotation2d(-Math.PI / 4);
-      swerveModulesStates[1].angle = new Rotation2d(Math.PI / 4);
-      swerveModulesStates[2].angle = new Rotation2d(Math.PI / 4);
-      swerveModulesStates[3].angle = new Rotation2d(-Math.PI / 4);
+      if (FIELD_ORIENTED) {
+        swerveModulesStates[0].angle = new Rotation2d(-Math.PI / 4);
+        swerveModulesStates[1].angle = new Rotation2d(Math.PI / 4);
+        swerveModulesStates[2].angle = new Rotation2d(Math.PI / 4);
+        swerveModulesStates[3].angle = new Rotation2d(-Math.PI / 4);
+      }
     }
 
     // Uses our method to set the rotation and speed of the modules from the calculated values
-    this.frontLeftModule.setDesiredState(swerveModulesStates[0]);
-    this.frontRightModule.setDesiredState(swerveModulesStates[1]);
-    this.backLeftModule.setDesiredState(swerveModulesStates[2]);
-    this.backRightModule.setDesiredState(swerveModulesStates[3]);
+    this.frontLeftModule.setDesiredState(swerveModulesStates[0], !FIELD_ORIENTED);
+    this.frontRightModule.setDesiredState(swerveModulesStates[1], !FIELD_ORIENTED);
+    this.backLeftModule.setDesiredState(swerveModulesStates[2], !FIELD_ORIENTED);
+    this.backRightModule.setDesiredState(swerveModulesStates[3], !FIELD_ORIENTED);
   }
 
   /**
