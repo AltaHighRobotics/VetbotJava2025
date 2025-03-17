@@ -5,7 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -17,6 +16,7 @@ import frc.robot.commands.SuckNBlowCommands.SuckCommand;
 import frc.robot.commands.Swerve.ResetOrientationCommand;
 import frc.robot.commands.Swerve.SwerveDriveCommand;
 import frc.robot.commands.Swerve.SwitchToFieldOriented;
+import frc.robot.commands.Swerve.ToggleRobotOriented;
 import frc.robot.commands.Swerve.SwitchToRobotOriented;
 import frc.robot.commands.claw.ClawBackward;
 import frc.robot.commands.claw.ClawForward;
@@ -27,7 +27,6 @@ import frc.robot.commands.elevator.ElevatorUp;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.SuckNBlowSubsystem;
-import frc.robot.subsystems.SuckNBlowSubsystem.OralType;
 import frc.robot.subsystems.Swerve.SwerveDriveSubsystem;
 
 /**
@@ -64,9 +63,9 @@ public class RobotContainer {
     this.drive.setDefaultCommand(new SwerveDriveCommand(drive, this.driverController));
   }
 
-  private void addStateBinding(int buttonID, double elevatorHeight, double clawDegrees) {
+  private void addStateBinding(String name, int buttonID, double elevatorHeight, double clawDegrees) {
     JoystickButton button = new JoystickButton(this.stateController, buttonID);
-    button.whileTrue(new ArmSetPosition(elevatorSubsystem, clawSubsystem, elevatorHeight, clawDegrees));
+    button.whileTrue(new ArmSetPosition(elevatorSubsystem, clawSubsystem, elevatorHeight, clawDegrees, name));
   }
 
   /**
@@ -100,19 +99,22 @@ public class RobotContainer {
     suckButton.whileTrue(new SuckCommand(this.suckNBlowSubsystem));
     blowButton.whileTrue(new BlowCommand(this.suckNBlowSubsystem));
 
-    addStateBinding(8, 0, 216); // L1
-    addStateBinding(9, 0.35, 275); // L2
-    addStateBinding(10, 0.57, 275); // L3
-    addStateBinding(11, 0.91, 275); // L4
-    addStateBinding(7, 0, 150); // CG
-    addStateBinding(6, 0.25, 235); // RP1
-    addStateBinding(5, 0.5, 235); // RP2
-    addStateBinding(4, 0, 235); // BS
+    addStateBinding("L1", 8, 0, 216); // L1
+    addStateBinding("L2", 9, 0.35, 275); // L2
+    addStateBinding("L3", 10, 0.57, 275); // L3
+    addStateBinding("L4", 11, 0.91, 275); // L4
+    addStateBinding("CG", 7, 0, 150); // CG
+    addStateBinding("RP1", 6, 0.25, 235); // RP1
+    addStateBinding("RP2", 5, 0.5, 235); // RP2
+    addStateBinding("BS", 4, 0, 235); // BS
 
+    JoystickButton stoweButton = new JoystickButton(this.driverController, 4);
+    stoweButton.whileTrue(new ArmSetPosition(elevatorSubsystem, clawSubsystem, 0, 20, "stowe"));
 
     JoystickButton makeFIeldOriented = new JoystickButton(driverController, 3);
-    makeFIeldOriented.whileTrue(new SwitchToRobotOriented(drive));
-    makeFIeldOriented.whileFalse(new SwitchToFieldOriented(drive));
+    // makeFIeldOriented.whileTrue(new SwitchToRobotOriented(drive));
+    // makeFIeldOriented.whileFalse(new SwitchToFieldOriented(drive));
+    makeFIeldOriented.whileTrue(new ToggleRobotOriented(drive));
   }
 
   /**

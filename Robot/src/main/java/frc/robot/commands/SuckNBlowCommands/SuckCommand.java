@@ -29,12 +29,17 @@ public class SuckCommand extends Command {
      * So after a few seconds we lower the motor power
      */
     @Override
-    public void execute() {
-      this.subsystem.set(OralType.SUCK);
+    public void initialize() {
+      switch (this.subsystem.oralType) {
+        case SUCK:
+          this.subsystem.set(OralType.STOP);
+          break;
+        default:
+          this.subsystem.set(OralType.SUCK);
+      }
     }
     
     @Override
     public void end(boolean interrupted) {
-      this.subsystem.set(OralType.STOP);
     }
 }

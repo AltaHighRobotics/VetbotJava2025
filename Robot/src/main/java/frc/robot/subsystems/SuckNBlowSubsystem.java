@@ -14,10 +14,12 @@ public class SuckNBlowSubsystem extends SubsystemBase{
     }
 
     private SparkMax motor;
+    public OralType oralType;
 
     public SuckNBlowSubsystem() {
         super();
         this.motor = new SparkMax(SuckNBlowConstants.SPARK_MAX_ID, MotorType.kBrushless);
+        this.oralType = OralType.STOP;
     }
 
     /**
@@ -25,6 +27,7 @@ public class SuckNBlowSubsystem extends SubsystemBase{
      * @param oralType The direction the motors will go, positive, negitive, or stopped
      */
     public void set(OralType oralType) {
+        this.oralType = oralType;
         switch (oralType) {
             case SUCK:
                 this.motor.set(-SuckNBlowConstants.MOTOR_SUCK_SPEED);

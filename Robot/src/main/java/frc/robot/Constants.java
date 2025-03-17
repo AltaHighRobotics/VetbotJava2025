@@ -75,8 +75,8 @@ public final class Constants {
 
   public static class SuckNBlowConstants {
     public static final int SPARK_MAX_ID = 42;
-    public static final double MOTOR_SUCK_SPEED = 0.6;
-    public static final double MOTOR_BLOW_SPEED = 0.8;
+    public static final double MOTOR_SUCK_SPEED = 0.75;
+    public static final double MOTOR_BLOW_SPEED = 0.7;
   }
 
   public static class ClawConstants { //Pretty much a copy of the elevator constants, along with the subsystem and commands
