@@ -45,32 +45,32 @@ public class RobotContainer {
   private final Joystick stateController;
 
   private SwerveDriveSubsystem drive;
-  // private ElevatorSubsystem elevatorSubsystem;
-  // private ClawSubsystem clawSubsystem;
-  // private SuckNBlowSubsystem suckNBlowSubsystem;
-  private PhotonVisionSubsystem photonVisionSubsystem;
+  private ElevatorSubsystem elevatorSubsystem;
+  private ClawSubsystem clawSubsystem;
+  private SuckNBlowSubsystem suckNBlowSubsystem;
+  // private PhotonVisionSubsystem photonVisionSubsystem;
 
   public RobotContainer() {
     this.driverController = new Joystick(InputConstants.DRIVER_CONTROLLER_PORT);
     this.stateController = new Joystick(1);
 
     this.drive = new SwerveDriveSubsystem();
-    // this.elevatorSubsystem  = new ElevatorSubsystem();
-    // this.clawSubsystem = new ClawSubsystem();
-    // this.suckNBlowSubsystem = new SuckNBlowSubsystem();
-    this.photonVisionSubsystem = new PhotonVisionSubsystem();
+    this.elevatorSubsystem  = new ElevatorSubsystem();
+    this.clawSubsystem = new ClawSubsystem();
+    this.suckNBlowSubsystem = new SuckNBlowSubsystem();
+    // this.photonVisionSubsystem = new PhotonVisionSubsystem();
 
     configureBindings();
 
-    // this.clawSubsystem.setDefaultCommand(new ClawGoToTarget(clawSubsystem));
-    // this.elevatorSubsystem.setDefaultCommand(new ElevatorMoveToTarget(this.elevatorSubsystem));
-    // this.drive.setDefaultCommand(new SwerveDriveCommand(drive, this.driverController));
-    this.photonVisionSubsystem.setDefaultCommand(new AprilTestCommand(photonVisionSubsystem, drive));
+    this.clawSubsystem.setDefaultCommand(new ClawGoToTarget(clawSubsystem));
+    this.elevatorSubsystem.setDefaultCommand(new ElevatorMoveToTarget(this.elevatorSubsystem));
+    this.drive.setDefaultCommand(new SwerveDriveCommand(drive, this.driverController));
+    // this.photonVisionSubsystem.setDefaultCommand(new AprilTestCommand(photonVisionSubsystem, drive));
   }
 
   private void addStateBinding(String name, int buttonID, double elevatorHeight, double clawDegrees) {
     JoystickButton button = new JoystickButton(this.stateController, buttonID);
-    // button.whileTrue(new ArmSetPosition(elevatorSubsystem, clawSubsystem, elevatorHeight, clawDegrees, name));
+    button.whileTrue(new ArmSetPosition(elevatorSubsystem, clawSubsystem, elevatorHeight, clawDegrees, name));
   }
 
   /**
@@ -91,18 +91,18 @@ public class RobotContainer {
     
     POVButton elevatorUpButton = new POVButton(driverController, 90);
     POVButton elevatorDownButton = new POVButton(driverController, 270);
-    // elevatorUpButton.whileTrue(new ElevatorUp(this.elevatorSubsystem));
-    // elevatorDownButton.whileTrue(new ElevatorDown(this.elevatorSubsystem));
+    elevatorUpButton.whileTrue(new ElevatorUp(this.elevatorSubsystem));
+    elevatorDownButton.whileTrue(new ElevatorDown(this.elevatorSubsystem));
 
     POVButton clawForwardButton = new POVButton(driverController, 0);
     POVButton clawBackwardButton = new POVButton(driverController, 180);
-    // clawForwardButton.whileTrue(new ClawForward(this.clawSubsystem));
-    // clawBackwardButton.whileTrue(new ClawBackward(this.clawSubsystem));
+    clawForwardButton.whileTrue(new ClawForward(this.clawSubsystem));
+    clawBackwardButton.whileTrue(new ClawBackward(this.clawSubsystem));
 
     JoystickButton suckButton = new JoystickButton(driverController, 2);
     JoystickButton blowButton = new JoystickButton(driverController, 1);
-    // suckButton.whileTrue(new SuckCommand(this.suckNBlowSubsystem));
-    // blowButton.whileTrue(new BlowCommand(this.suckNBlowSubsystem));
+    suckButton.whileTrue(new SuckCommand(this.suckNBlowSubsystem));
+    blowButton.whileTrue(new BlowCommand(this.suckNBlowSubsystem));
 
     addStateBinding("L1", 8, 0.108, 246.85); // L1
     addStateBinding("L2", 9, 0.35, 275); // L2
@@ -114,7 +114,7 @@ public class RobotContainer {
     addStateBinding("BS", 4, 0, 235); // BS
 
     JoystickButton stoweButton = new JoystickButton(this.driverController, 4);
-    // stoweButton.whileTrue(new ArmSetPosition(elevatorSubsystem, clawSubsystem, 0, 20, "stowe"));
+    stoweButton.whileTrue(new ArmSetPosition(elevatorSubsystem, clawSubsystem, 0, 20, "stowe"));
 
     JoystickButton makeFIeldOriented = new JoystickButton(driverController, 3);
     // makeFIeldOriented.whileTrue(new SwitchToRobotOriented(drive));
