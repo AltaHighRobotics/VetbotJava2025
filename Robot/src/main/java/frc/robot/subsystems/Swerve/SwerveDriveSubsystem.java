@@ -110,7 +110,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   * @param rot The angular rate of the robot. Radians I think
   * @param speed Scales the speed, if set to 0 the robot won't move. 0 to 1
   */
-  public void drive(double ySpeed, double xSpeed, double rot, double speed) {
+  public void drive(double ySpeed, double xSpeed, double rot, double speed, boolean robotOriented) {
     // Shuffleboard.getTab("main").addDouble("FIELD (FALSE IS ROBOT)", (double)(int)this.FIELD_ORIENTED);
 
     int axes0 = 0;
@@ -137,7 +137,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     ChassisSpeeds chassisSpeeds; 
 
 
-    if (FIELD_ORIENTED) {
+    if (robotOriented) {
+      chassisSpeeds = new ChassisSpeeds(-xSpeed, -ySpeed, rot);
+    }
+
+    else if (FIELD_ORIENTED) {
       // v is for Velocity
       final double vxMetersPerSecond = -xSpeed * speed;
       final double vyMetersPerSecond = ySpeed * speed;

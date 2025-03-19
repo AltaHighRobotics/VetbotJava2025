@@ -24,11 +24,12 @@ class MoveForwardStupid extends Command {
     public void execute() {
         final long currentTime = System.currentTimeMillis();
         final long milisecondsAlive = currentTime - this.startTime; 
-        if (milisecondsAlive > AutonomousConstants.milisecondsAlive) {
-            drive.drive(0, 0, 0, 0);
+        if (milisecondsAlive > AutonomousConstants.driveTime + AutonomousConstants.delayTime) {
+            drive.drive(0, 0, 0, 0, false);
             return;
         }
-
-        drive.drive(0, 1, 0, AutonomousConstants.driveSpeed);
+        else if (milisecondsAlive > AutonomousConstants.delayTime) {
+            drive.drive(0, 1, 0, AutonomousConstants.driveSpeed, false);
+        }
     }
 }

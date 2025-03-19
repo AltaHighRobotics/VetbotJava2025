@@ -91,7 +91,8 @@ public final class Constants {
   }
   
   public static class AutonomousConstants {
-    public static final long milisecondsAlive = 1500;
+    public static final long delayTime = 1500;
+    public static final long driveTime = 1500;
     public static final double driveSpeed = .5;
   }
 }
