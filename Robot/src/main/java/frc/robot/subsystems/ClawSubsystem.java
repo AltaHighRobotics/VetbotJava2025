@@ -42,7 +42,7 @@ public class ClawSubsystem extends SubsystemBase{
         final double newD = SmartDashboard.getEntry("Claw D").getDouble(0);
         this.pidController.setPID(newP, newI, newD);
 
-        final double motorRawOutput = this.pidController.calculate(this.getRev(), -this.targetRev);
+        final double motorRawOutput = this.pidController.calculate(this.getRev(), this.targetRev);
         final double limitedMotorOutput = MathUtil.clamp(motorRawOutput, -ClawConstants.MOTOR_MAX_OUTPUT, ClawConstants.MOTOR_MAX_OUTPUT);
         motor.setVoltage(limitedMotorOutput);
     }
