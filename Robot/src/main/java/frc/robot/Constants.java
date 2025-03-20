@@ -49,9 +49,10 @@ public final class Constants {
     public static final int BACK_RIGHT_DRIVE_ID = 5;
     public static final int BACK_RIGHT_TURN_ID = 55;
 
-    public static final double P = 50;
+    public static final double P = 45;
     public static final double I = 0;
-    public static final double D = 0.001;
+    public static final double D = 0.01;
+    
   }
   
   public static class ElevatorConstants {
@@ -85,9 +86,9 @@ public final class Constants {
     public static final double MOTOR_MAX_OUTPUT = 8;
     public static final double REV_FOR_FULL_ROTATION = 25;
 
-    public static final double P = 20;
+    public static final double P = 30;
     public static final double I = 0;
-    public static final double D = 0;
+    public static final double D = 3;
   }
   
   public static class AutonomousConstants {

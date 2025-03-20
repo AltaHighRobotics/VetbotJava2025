@@ -48,7 +48,7 @@ public class RobotContainer {
   private ElevatorSubsystem elevatorSubsystem;
   private ClawSubsystem clawSubsystem;
   private SuckNBlowSubsystem suckNBlowSubsystem;
-  // private PhotonVisionSubsystem photonVisionSubsystem;
+  private PhotonVisionSubsystem photonVisionSubsystem;
 
   public RobotContainer() {
     this.driverController = new Joystick(InputConstants.DRIVER_CONTROLLER_PORT);
@@ -58,14 +58,14 @@ public class RobotContainer {
     this.elevatorSubsystem  = new ElevatorSubsystem();
     this.clawSubsystem = new ClawSubsystem();
     this.suckNBlowSubsystem = new SuckNBlowSubsystem();
-    // this.photonVisionSubsystem = new PhotonVisionSubsystem();
+    this.photonVisionSubsystem = new PhotonVisionSubsystem();
 
     configureBindings();
 
-    this.clawSubsystem.setDefaultCommand(new ClawGoToTarget(clawSubsystem));
-    this.elevatorSubsystem.setDefaultCommand(new ElevatorMoveToTarget(this.elevatorSubsystem));
+    // this.clawSubsystem.setDefaultCommand(new ClawGoToTarget(clawSubsystem));
+    // this.elevatorSubsystem.setDefaultCommand(new ElevatorMoveToTarget(this.elevatorSubsystem));
     this.drive.setDefaultCommand(new SwerveDriveCommand(drive, this.driverController));
-    // this.photonVisionSubsystem.setDefaultCommand(new AprilTestCommand(photonVisionSubsystem, drive));
+    this.photonVisionSubsystem.setDefaultCommand(new AprilTestCommand(photonVisionSubsystem, drive));
   }
 
   private void addStateBinding(String name, int buttonID, double elevatorHeight, double clawDegrees) {
@@ -104,14 +104,14 @@ public class RobotContainer {
     suckButton.whileTrue(new SuckCommand(this.suckNBlowSubsystem));
     blowButton.whileTrue(new BlowCommand(this.suckNBlowSubsystem));
 
-    addStateBinding("L1", 8, 0.108, 246.85); // L1
-    addStateBinding("L2", 9, 0.35, 275); // L2
-    addStateBinding("L3", 10, 0.57, 275); // L3
-    addStateBinding("L4", 11, 0.91, 275); // L4
-    addStateBinding("CG", 7, 0, 150); // CG
-    addStateBinding("RP1", 6, 0.25, 235); // RP1
-    addStateBinding("RP2", 5, 0.5, 235); // RP2
-    addStateBinding("BS", 4, 0, 235); // BS
+    addStateBinding("L1", 8, 0.108, 178); // L1
+    addStateBinding("L2", 9, 0.35, 195); // L2
+    addStateBinding("L3", 10, 0.57, 195); // L3
+    addStateBinding("L4", 11, 0.91, 190); // L4
+    addStateBinding("CG", 7, 0, 105); // CG
+    addStateBinding("RP1", 6, 0.25, 163); // RP1
+    addStateBinding("RP2", 5, 0.5, 163); // RP2
+    addStateBinding("BS", 4, 0, 163); // BS
 
     JoystickButton stoweButton = new JoystickButton(this.driverController, 4);
     stoweButton.whileTrue(new ArmSetPosition(elevatorSubsystem, clawSubsystem, 0, 20, "stowe"));

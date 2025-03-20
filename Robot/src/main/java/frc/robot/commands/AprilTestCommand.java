@@ -24,17 +24,10 @@ public class AprilTestCommand extends Command {
         PhotonTrackedTarget target = this.subsystem.getBestTarget();
         if (target == null) { return; }
 
-        double ySpeed = 0;
-        double xSpeed = 0;
+        double ySpeed = -target.getBestCameraToTarget().getX();
+        double xSpeed = -target.getBestCameraToTarget().getY();
         final double rotation = 0;
         final double speed = 0.4;
-
-        System.out.println(target.getArea());
-        if (target.getArea() < 5) {
-            xSpeed = -1;
-            ySpeed = 0;
-        }
-
 
         this.drive.drive(ySpeed, xSpeed, rotation, speed, true);
     }
